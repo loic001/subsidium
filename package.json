@@ -22,10 +22,12 @@
   "scripts": {
     "test": "vitest run",
     "coverage": "vitest run --coverage",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "sim": "tsx bench/report.ts"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^3.2.4",
+    "tsx": "^4.19.0",
     "typescript": "^5.5.0",
     "vitest": "^3.2.4"
   }

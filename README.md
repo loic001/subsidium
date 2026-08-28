@@ -121,6 +121,44 @@ Run it: `npm install && npm run typecheck && npm run coverage`.
 The figures above are not hand-drawn: their HTML source lives in
 [`art/diagrams.html`](art/diagrams.html) — edit, reload, re-shoot.
 
+## The closed world — `npm run sim`
+
+Before the framework is allowed to spend a minute of a human's attention or
+a counterpart's patience, its laws run inside a **seeded, deterministic,
+free** simulation ([`src/sim.ts`](src/sim.ts)) that drives the REAL
+primitives — `deriveTier`, `TierGovernor`, the thread state machine —
+against rival policies in a world with known ground truth. Every ordering
+below is pinned by a test; same seeds, same numbers, on any machine.
+
+60 days · 20 proposals/day · 60 human-minutes/day · 5 seeds:
+
+| policy | unblocked | incidents | human minutes | queue at end | unblocked/hour |
+|---|---|---|---|---|---|
+| `all_auto` (the 2023 agent) | **163.8** | **88** | 0 | 0 | ∞ |
+| `all_consent` (everything waits) | 90.2 | 5 | 3600 | **480** | 1.5 |
+| `pyramid` | 147.6 | 6.2 | 2336 | 4 | 3.79 |
+| `pyramid + governor` | 152.4 | 6.0 | 2241 | 4 | **4.08** |
+
+The pyramid unblocks **+64% more subjects than all-consent, with fewer
+human minutes, at nearly the same safety** — and all-auto's throughput
+crown costs 14× the incidents.
+
+Under drift (a promoted kind turns rotten at day 30), the cliff halves the
+damage vs promotion-without-demotion (34.2 vs 65.4 bad fires) — and, a
+result that surprised us and is pinned as such in the tests: it lands *at
+or below* the never-promoting static pyramid, because vetoes and
+rejections feed the failure record too.
+
+Outreach, 500 counterparts with a hidden preferred channel and a patience
+threshold: the thread law gets **3× the replies of the naive hammer with
+half the messages and structurally zero social damage** (298 replies /
+1186 messages / 0 annoyed, vs 105 / 2475 / 1975).
+
+What the closed world proves: the orderings, under stated assumptions.
+What it cannot prove: the assumptions. Production keeps the final word —
+a simulation win is a license to run the real experiment, never a
+substitute for it.
+
 ## Status — read before using
 
 Extracted from a production system operating a payments company's merchant

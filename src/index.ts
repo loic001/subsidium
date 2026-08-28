@@ -12,3 +12,4 @@ export * from './governor';
 export * from './thread';
 export * from './attention';
 export * from './escalation';
+export * from './sim';

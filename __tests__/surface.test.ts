@@ -25,6 +25,11 @@ describe('the package surface', () => {
       'EMPTY_ATTENTION',
       'buildEscalationSignal',
       'MAX_SUMMARY_LENGTH',
+      'lcg',
+      'simulateGating',
+      'simulateOutreach',
+      'averageGating',
+      'defaultWorld',
     ];
     for (const name of expected) {
       expect(subsidium, name).toHaveProperty(name);
