@@ -1,0 +1,64 @@
+.github/workflows/ci.yml
+  h_1f6a0b05af52de 1-18
+README.md
+  h_1f6a0b05af52de 3-4,100-124
+__tests__/attention.test.ts
+  h_1f6a0b05af52de 33-63,79-93
+__tests__/governor.test.ts
+  h_1f6a0b05af52de 64-127
+__tests__/invariants.test.ts
+  h_1f6a0b05af52de 1-105
+__tests__/surface.test.ts
+  h_1f6a0b05af52de 1-55
+__tests__/thread.test.ts
+  h_1f6a0b05af52de 61-106
+coverage/attention.ts.html
+  h_1f6a0b05af52de 1-268
+coverage/base.css
+  h_1f6a0b05af52de 1-224
+coverage/block-navigation.js
+  h_1f6a0b05af52de 1-87
+coverage/clover.xml
+  h_1f6a0b05af52de 1-241
+coverage/coverage-final.json
+  h_1f6a0b05af52de 1-8
+coverage/escalation.ts.html
+  h_1f6a0b05af52de 1-193
+coverage/governor.ts.html
+  h_1f6a0b05af52de 1-460
+coverage/index.html
+  h_1f6a0b05af52de 1-206
+coverage/index.ts.html
+  h_1f6a0b05af52de 1-127
+coverage/prettify.css
+  h_1f6a0b05af52de 1
+coverage/prettify.js
+  h_1f6a0b05af52de 1-2
+coverage/sorter.js
+  h_1f6a0b05af52de 1-210
+coverage/thread.ts.html
+  h_1f6a0b05af52de 1-397
+coverage/tier.ts.html
+  h_1f6a0b05af52de 1-376
+coverage/types.ts.html
+  h_1f6a0b05af52de 1-703
+package.json
+  h_1f6a0b05af52de 24,28
+src/attention.ts
+  h_1f6a0b05af52de 24-40,43,53
+src/tier.ts
+  h_1f6a0b05af52de 87-91,95
+vitest.config.ts
+  h_1f6a0b05af52de 1-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "df225e658f7ea2fc201d72b042340bef5aa0c7c4",
+  "prompts": {},
+  "humans": {
+    "h_1f6a0b05af52de": {
+      "author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    }
+  }
+}
