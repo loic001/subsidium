@@ -1,0 +1,16 @@
+README.md
+  h_1f6a0b05af52de 33,37-39,41,63-64,71-72,121-123
+art/diagrams.html
+  h_1f6a0b05af52de 2-3,5-11,13-135,138-235,237-290,292
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "e86cca9fdc5c3e37a68d0692c80b2d5442dbab26",
+  "prompts": {},
+  "humans": {
+    "h_1f6a0b05af52de": {
+      "author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    }
+  }
+}
