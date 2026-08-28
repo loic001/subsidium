@@ -1,292 +1,366 @@
 <!doctype html>
 <!--
-  subsidium · diagram source
+  subsidium · diagram source (v2)
 
-  Each <section> below is one README figure, screenshotted as-is into
-  art/*.png. The HTML is versioned so the figures are regenerable: edit,
-  reload, re-shoot. Design: dark slate, one semantic color per tier
-  (green = autonomous, amber = veto, red = consent, violet = human),
-  large type so the PNGs stay crisp when GitHub downscales them.
+  Each <section> is one README figure, screenshotted as-is into art/*.png.
+  Versioned so the figures are regenerable: edit, reload, re-shoot.
+
+  Craft rules for this file:
+  - every card in a row has the SAME height, every gap sits on an 8px rhythm;
+  - arrows are drawn SVG, never text glyphs (they render differently everywhere);
+  - no emoji (inconsistent rasterization) — markers are drawn;
+  - nothing is allowed to wrap unpredictably: widths are chosen so text fits;
+  - one semantic color per tier, used sparingly on a near-black ground.
 -->
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <title>subsidium diagrams</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --bg: #0d1117;
-    --panel: #161c26;
-    --line: #2a3342;
-    --text: #e8edf4;
+    --bg: #0b0e13;
+    --panel: #11161d;
+    --panel2: #151b24;
+    --line: #232c38;
+    --text: #eef2f7;
     --mute: #9aa7b8;
-    --faint: #5d6b7e;
-    --t0: #34d399; --t1: #6ee7b7; --t2: #fbbf24; --t3: #fb7185; --t4: #a78bfa; --t5: #64748b;
+    --faint: #5a6779;
+    --t0: #2dd4a7; --t1: #7fe3c3; --t2: #f5b93e; --t3: #f26d7e; --t4: #a78bfa; --t5: #6b7a8f;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #05070a; font-family: 'Inter', -apple-system, sans-serif; color: var(--text); }
+  body { background: #07090d; font-family: 'Inter', -apple-system, sans-serif; color: var(--text); }
   .mono { font-family: 'JetBrains Mono', monospace; }
 
   section {
-    width: 1560px; padding: 72px 84px; margin: 40px auto;
-    background: radial-gradient(1200px 600px at 20% -10%, #131a26 0%, var(--bg) 60%);
-    border: 1px solid var(--line); border-radius: 24px;
-    position: relative; overflow: hidden;
+    width: 1560px; height: auto; padding: 68px 84px 56px; margin: 24px auto;
+    background:
+      radial-gradient(circle at 1px 1px, #ffffff07 1px, transparent 1.5px),
+      radial-gradient(1000px 500px at 15% -8%, #16202e 0%, transparent 60%),
+      var(--bg);
+    background-size: 28px 28px, auto, auto;
+    border: 1px solid var(--line);
+    position: relative;
   }
-  .brand { position: absolute; top: 34px; right: 44px; font-family: 'JetBrains Mono', monospace; font-size: 17px; color: var(--faint); letter-spacing: .08em; }
-  h1 { font-size: 46px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 10px; }
-  .sub { font-size: 23px; color: var(--mute); margin-bottom: 56px; font-weight: 400; max-width: 1200px; line-height: 1.45; }
+  header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; }
+  .fig { font-family: 'JetBrains Mono', monospace; font-size: 17px; color: var(--faint); letter-spacing: .14em; }
+  h1 { font-size: 50px; font-weight: 800; letter-spacing: -0.025em; margin-bottom: 12px; }
+  .sub { font-size: 22px; color: var(--mute); font-weight: 400; max-width: 1240px; line-height: 1.5; margin-bottom: 56px; }
   .sub b { color: var(--text); font-weight: 600; }
+  footer {
+    margin-top: 52px; padding-top: 22px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace; font-size: 15px; color: var(--faint); letter-spacing: .04em;
+  }
 
-  /* ── pyramid ─────────────────────────────────────────────── */
-  .pyr { display: flex; flex-direction: column; align-items: center; gap: 14px; }
-  .row { display: flex; align-items: center; gap: 28px; width: 100%; justify-content: center; }
-  .bar {
-    height: 86px; border-radius: 14px; display: flex; align-items: center;
-    padding: 0 30px; gap: 22px; border: 1.5px solid;
+  /* pills, markers */
+  .pill {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 25px;
+    padding: 10px 22px; border-radius: 999px; border: 1.5px solid;
+    white-space: nowrap;
   }
-  .bar .tier { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 27px; }
-  .bar .mode { font-family: 'JetBrains Mono', monospace; font-size: 21px; opacity: .85; }
-  .side { width: 470px; font-size: 21px; color: var(--mute); line-height: 1.35; flex-shrink: 0; }
-  .side b { color: var(--text); font-weight: 600; }
-  .t5 { width: 300px; background: #64748b14; border-color: #64748b66; color: var(--t5); }
-  .t4 { width: 440px; background: #a78bfa12; border-color: #a78bfa66; color: var(--t4); }
-  .t3 { width: 580px; background: #fb718512; border-color: #fb718566; color: var(--t3); }
-  .t2 { width: 720px; background: #fbbf2412; border-color: #fbbf2466; color: var(--t2); }
-  .t1 { width: 860px; background: #6ee7b710; border-color: #6ee7b755; color: var(--t1); }
-  .t0 { width: 1000px; background: #34d39910; border-color: #34d39955; color: var(--t0); }
-  .human {
-    display: flex; align-items: center; gap: 16px; margin-bottom: 26px;
-    color: var(--mute); font-size: 22px;
-  }
-  .human .chip {
-    border: 1.5px dashed #a78bfa88; color: #c4b5fd; border-radius: 999px;
-    padding: 10px 24px; font-family: 'JetBrains Mono', monospace; font-size: 20px;
-  }
-  .axis { display: flex; justify-content: space-between; width: 1000px; margin-top: 30px; color: var(--faint); font-size: 20px; }
-  .axis .mono { color: var(--faint); }
+  .dotm { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
 
-  /* ── derivation table ────────────────────────────────────── */
-  table { border-collapse: separate; border-spacing: 12px; margin: 0 auto; }
-  th { font-size: 21px; font-weight: 600; color: var(--mute); padding: 10px 16px; text-align: center; }
-  th.rowh { text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: 20px; max-width: 330px; line-height: 1.4; }
-  td {
-    width: 300px; height: 108px; border-radius: 14px; text-align: center; vertical-align: middle;
-    border: 1.5px solid;
+  /* ── 1 · pyramid ─────────────────────────────────────────── */
+  .pyr-wrap { position: relative; width: 1392px; }
+  .apex { width: 1000px; display: flex; flex-direction: column; align-items: center; gap: 14px; margin-bottom: 26px; }
+  .person { width: 44px; height: 44px; border-radius: 50%; border: 2px solid #c4b5fd; position: relative; }
+  .person::before { content: ''; position: absolute; left: 50%; top: 9px; transform: translateX(-50%); width: 11px; height: 11px; border-radius: 50%; background: #c4b5fd; }
+  .person::after { content: ''; position: absolute; left: 50%; top: 22px; transform: translateX(-50%); width: 22px; height: 12px; border-radius: 11px 11px 0 0; background: #c4b5fd; }
+  .apex .chip {
+    border: 1.5px dashed #a78bfa77; color: #c4b5fd; border-radius: 999px; background: #a78bfa0d;
+    padding: 12px 26px; font-family: 'JetBrains Mono', monospace; font-size: 20px; white-space: nowrap;
   }
-  td .big { font-family: 'JetBrains Mono', monospace; font-size: 30px; font-weight: 600; display: block; }
-  td .why { font-size: 18px; opacity: .8; display: block; margin-top: 6px; }
-  td.c0 { background: #34d39914; border-color: #34d39966; color: var(--t0); }
-  td.c1 { background: #6ee7b712; border-color: #6ee7b760; color: var(--t1); }
-  td.c2 { background: #fbbf2414; border-color: #fbbf2466; color: var(--t2); }
-  td.c3 { background: #fb718514; border-color: #fb718566; color: var(--t3); }
-  td.c4 { background: #a78bfa14; border-color: #a78bfa66; color: var(--t4); }
-  .legend { display: flex; gap: 34px; justify-content: center; margin-top: 44px; font-size: 20px; color: var(--mute); }
-  .legend i { display: inline-block; width: 14px; height: 14px; border-radius: 4px; margin-right: 10px; }
+  .apxnote { color: var(--faint); font-size: 19px; }
+  .apxnote b { color: var(--mute); font-weight: 600; }
 
-  /* ── governor ────────────────────────────────────────────── */
-  .gov { display: flex; align-items: stretch; gap: 26px; justify-content: center; }
+  .prow { position: relative; height: 78px; margin-bottom: 14px; }
+  .pbar {
+    position: absolute; top: 0; height: 78px; border-radius: 12px;
+    display: flex; align-items: center; gap: 20px; padding: 0 26px;
+    border: 1.5px solid; font-family: 'JetBrains Mono', monospace;
+  }
+  .pbar .tn { font-weight: 700; font-size: 26px; }
+  .pbar .md { font-size: 20px; opacity: .9; }
+  .leader { position: absolute; top: 39px; height: 1px; background: linear-gradient(90deg, var(--line), #3a4656); }
+  .leader::after { content: ''; position: absolute; right: -1px; top: -2.5px; width: 6px; height: 6px; border-radius: 50%; background: #3a4656; }
+  .plabel { position: absolute; left: 1072px; top: 0; height: 78px; display: flex; align-items: center; width: 320px; }
+  .plabel span { font-size: 21px; color: var(--mute); line-height: 1.35; }
+  .plabel b { color: var(--text); font-weight: 600; }
+
+  .b5 { background: #6b7a8f14; border-color: #6b7a8f5c; color: var(--t5); }
+  .b4 { background: #a78bfa12; border-color: #a78bfa5c; color: var(--t4); }
+  .b3 { background: #f26d7e12; border-color: #f26d7e5c; color: var(--t3); }
+  .b2 { background: #f5b93e10; border-color: #f5b93e55; color: var(--t2); }
+  .b1 { background: #7fe3c30e; border-color: #7fe3c34d; color: var(--t1); }
+  .b0 { background: #2dd4a70e; border-color: #2dd4a74d; color: var(--t0); }
+
+  .pyr-axis { width: 1000px; display: flex; justify-content: space-between; margin-top: 24px; color: var(--faint); font-size: 18px; font-family: 'JetBrains Mono', monospace; }
+
+  /* ── 2 · derivation ──────────────────────────────────────── */
+  .grid { display: grid; grid-template-columns: 336px repeat(3, 328px); gap: 14px; justify-content: center; }
+  .gh { font-size: 20px; font-weight: 600; color: var(--text); text-align: center; padding: 10px 6px 2px; }
+  .gh small { display: block; font-weight: 400; font-size: 17px; color: var(--faint); margin-top: 4px; }
+  .rh {
+    display: flex; align-items: center; justify-content: flex-end; padding-right: 22px;
+    font-family: 'JetBrains Mono', monospace; font-size: 19px; color: var(--mute); white-space: nowrap;
+  }
+  .cell {
+    height: 122px; border-radius: 14px; border: 1.5px solid;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px;
+  }
+  .cell .t { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 25px; white-space: nowrap; }
+  .cell .r { font-size: 17px; opacity: .78; }
+  .c0 { background: #2dd4a712; border-color: #2dd4a75c; color: var(--t0); }
+  .c1 { background: #7fe3c310; border-color: #7fe3c352; color: var(--t1); }
+  .c2 { background: #f5b93e12; border-color: #f5b93e5c; color: var(--t2); }
+  .c3 { background: #f26d7e12; border-color: #f26d7e5c; color: var(--t3); }
+  .c4 { background: #a78bfa12; border-color: #a78bfa5c; color: var(--t4); }
+  .legend { display: flex; gap: 40px; justify-content: center; margin-top: 46px; font-size: 19px; color: var(--mute); }
+  .legend span { display: inline-flex; align-items: center; gap: 11px; }
+
+  /* ── 3 · governor ────────────────────────────────────────── */
+  .gtrack { display: grid; grid-template-columns: 1fr 168px 1fr 168px 1fr; gap: 0; align-items: stretch; }
   .stage {
-    flex: 1; max-width: 420px; border-radius: 18px; border: 1.5px solid var(--line);
-    background: var(--panel); padding: 30px 30px 26px;
-    display: flex; flex-direction: column; gap: 14px;
+    border-radius: 16px; border: 1.5px solid var(--line); background: var(--panel);
+    padding: 30px 32px; display: flex; flex-direction: column; min-height: 316px;
   }
-  .stage .k { font-family: 'JetBrains Mono', monospace; font-size: 19px; color: var(--faint); letter-spacing: .06em; }
-  .stage .tierline { font-family: 'JetBrains Mono', monospace; font-size: 34px; font-weight: 600; }
-  .stage p { font-size: 20px; color: var(--mute); line-height: 1.5; }
+  .stage .k { font-family: 'JetBrains Mono', monospace; font-size: 17px; color: var(--faint); letter-spacing: .1em; height: 46px; }
+  .stage .pill { margin-bottom: 20px; align-self: flex-start; }
+  .stage p { font-size: 20px; color: var(--mute); line-height: 1.55; }
   .stage p b { color: var(--text); }
-  .arrow { align-self: center; font-size: 40px; color: var(--faint); padding: 0 2px; }
-  .arrow small { display: block; font-size: 17px; text-align: center; margin-top: 4px; }
-  .slow { color: var(--t0); }
-  .cliff { color: var(--t3); }
-  .gov-notes { display: flex; gap: 26px; margin-top: 42px; justify-content: center; }
-  .note {
-    border-radius: 16px; padding: 24px 30px; font-size: 20px; line-height: 1.5;
-    border: 1.5px solid; max-width: 640px;
-  }
-  .note.green { border-color: #34d39955; background: #34d3990d; color: var(--mute); }
-  .note.red { border-color: #fb718555; background: #fb71850d; color: var(--mute); }
+  .pl3 { background: #f26d7e14; border-color: #f26d7e66; color: var(--t3); }
+  .pl2 { background: #f5b93e14; border-color: #f5b93e66; color: var(--t2); }
+  .garrow { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 0 10px; }
+  .garrow svg { display: block; }
+  .garrow .al { font-family: 'JetBrains Mono', monospace; font-size: 16px; text-align: center; line-height: 1.5; }
+  .al.up { color: var(--t0); }
+  .al.down { color: var(--t3); }
+  .gnotes { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 30px; }
+  .note { border-radius: 16px; padding: 26px 30px; font-size: 19.5px; line-height: 1.55; border: 1.5px solid; color: var(--mute); }
   .note b { color: var(--text); }
-  .note .h { font-weight: 800; font-size: 21px; display: block; margin-bottom: 8px; }
-  .note.green .h { color: var(--t0); }
-  .note.red .h { color: var(--t3); }
+  .note .h { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 20px; margin-bottom: 10px; }
+  .note.green { border-color: #f5b93e42; background: #f5b93e07; } .note.green .h { color: var(--t2); }
+  .note.red { border-color: #f26d7e4d; background: #f26d7e08; } .note.red .h { color: var(--t3); }
 
-  /* ── thread ──────────────────────────────────────────────── */
-  .flow { display: flex; align-items: center; gap: 22px; justify-content: center; }
+  /* ── 4 · thread ──────────────────────────────────────────── */
+  .ttrack { display: grid; grid-template-columns: 1fr 128px 1fr 128px 1fr 128px 1fr; align-items: stretch; }
   .step {
-    border-radius: 18px; border: 1.5px solid var(--line); background: var(--panel);
-    padding: 28px 30px; width: 330px; min-height: 240px;
+    border-radius: 16px; border: 1.5px solid var(--line); background: var(--panel);
+    padding: 28px 30px; display: flex; flex-direction: column; min-height: 300px;
   }
-  .step .n { font-family: 'JetBrains Mono', monospace; color: var(--faint); font-size: 19px; margin-bottom: 12px; }
-  .step .t { font-size: 27px; font-weight: 800; margin-bottom: 12px; }
-  .step p { font-size: 20px; color: var(--mute); line-height: 1.5; }
+  .step .n { font-family: 'JetBrains Mono', monospace; color: var(--faint); font-size: 17px; letter-spacing: .06em; height: 40px; }
+  .step .t { font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 700; margin-bottom: 16px; white-space: nowrap; }
+  .step p { font-size: 19.5px; color: var(--mute); line-height: 1.55; }
   .step p b { color: var(--text); }
-  .step.reframe { border-color: #fbbf2466; background: #fbbf2408; }
-  .step.reframe .t { color: var(--t2); }
-  .step.close { border-color: #64748b66; }
-  .step.close .t { color: var(--t5); }
-  .step.nudge .t { color: var(--t1); }
-  .banned {
-    margin: 46px auto 0; max-width: 1100px; border: 1.5px solid #fb718555; background: #fb71850d;
-    border-radius: 16px; padding: 24px 32px; font-size: 21px; color: var(--mute); line-height: 1.55; text-align: center;
+  .step.nudge .t { color: var(--t0); }
+  .step.reframe { border-color: #f5b93e55; background: #f5b93e08; } .step.reframe .t { color: var(--t2); }
+  .step.close { border-color: #6b7a8f66; } .step.close .t { color: var(--t5); }
+  .tarrow { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+  .tarrow .al { font-family: 'JetBrains Mono', monospace; font-size: 15.5px; color: var(--faint); text-align: center; line-height: 1.5; }
+  .law {
+    margin-top: 30px; border: 1.5px solid #f26d7e42; background: #f26d7e08; border-radius: 16px;
+    padding: 26px 32px; font-size: 20px; color: var(--mute); line-height: 1.6; display: flex; gap: 20px; align-items: flex-start;
   }
-  .banned b { color: var(--t3); }
+  .law b { color: var(--t3); }
+  .law .bar { width: 4px; align-self: stretch; border-radius: 2px; background: var(--t3); opacity: .7; flex-shrink: 0; }
 </style>
 </head>
 <body>
 
 <!-- ═══ 1 · THE PYRAMID ═══════════════════════════════════════ -->
 <section id="pyramid">
-  <div class="brand">subsidium</div>
-  <h1>The subsidiarity pyramid</h1>
-  <p class="sub">The discriminator is never “how much the AI does” — it is <b>who holds the fallback</b>.
-  Decisions belong to the lowest tier able to carry them: <b>escalation bears the burden of proof, never autonomy</b>.</p>
+  <header><span class="fig">FIG. 01 — THE PYRAMID</span><span class="fig">subsidium</span></header>
+  <h1>Who holds the fallback?</h1>
+  <p class="sub">The discriminator between tiers is never “how much the AI does”. Decisions belong to the
+  lowest tier able to carry them — <b>escalation bears the burden of proof, never autonomy</b>.</p>
 
-  <div class="human">
-    <span class="chip">☻ human — attention budget: n minutes / day</span>
-    <span>when the minutes are spent, escalations <b style="color:var(--text)">queue</b> — they never spill</span>
+  <div class="pyr-wrap">
+    <div class="apex">
+      <div class="person"></div>
+      <span class="chip">the human · attention budget — n minutes / day</span>
+      <span class="apxnote">when the minutes are spent, escalations <b>queue</b> — they never spill</span>
+    </div>
+
+    <div class="prow">
+      <div class="pbar b5" style="left:370px; width:260px"><span class="tn">T5</span><span class="md">out_of_scope</span></div>
+      <div class="leader" style="left:640px; width:412px"></div>
+      <div class="plabel"><span>the system only <b>signals</b></span></div>
+    </div>
+    <div class="prow">
+      <div class="pbar b4" style="left:300px; width:400px"><span class="tn">T4</span><span class="md">human_decision</span></div>
+      <div class="leader" style="left:710px; width:342px"></div>
+      <div class="plabel"><span>the file is ready, <b>a human decides</b></span></div>
+    </div>
+    <div class="prow">
+      <div class="pbar b3" style="left:230px; width:540px"><span class="tn">T3</span><span class="md">consent</span></div>
+      <div class="leader" style="left:780px; width:272px"></div>
+      <div class="plabel"><span>a human <b>must click</b></span></div>
+    </div>
+    <div class="prow">
+      <div class="pbar b2" style="left:160px; width:680px"><span class="tn">T2</span><span class="md">veto</span></div>
+      <div class="leader" style="left:850px; width:202px"></div>
+      <div class="plabel"><span>fires unless someone <b>objects in time</b></span></div>
+    </div>
+    <div class="prow">
+      <div class="pbar b1" style="left:90px; width:820px"><span class="tn">T1</span><span class="md">auto_notify</span></div>
+      <div class="leader" style="left:920px; width:132px"></div>
+      <div class="plabel"><span>acts, <b>then tells</b></span></div>
+    </div>
+    <div class="prow" style="margin-bottom:0">
+      <div class="pbar b0" style="left:20px; width:960px"><span class="tn">T0</span><span class="md">auto_silent</span></div>
+      <div class="leader" style="left:990px; width:62px"></div>
+      <div class="plabel"><span>acts, <b>logs</b></span></div>
+    </div>
+
+    <div class="pyr-axis"><span>▲ scarce, expensive, human</span><span>width ∝ intended share of actions</span><span>abundant, cheap, automatic ▼</span></div>
   </div>
 
-  <div class="pyr">
-    <div class="row"><div class="bar t5"><span class="tier">T5</span><span class="mode">out_of_scope</span></div>
-      <div class="side">the system only <b>signals</b></div></div>
-    <div class="row"><div class="bar t4"><span class="tier">T4</span><span class="mode">human_decision</span></div>
-      <div class="side">prepares the file, asks <b>one question</b> — a human decides</div></div>
-    <div class="row"><div class="bar t3"><span class="tier">T3</span><span class="mode">consent</span></div>
-      <div class="side">a human <b>must click</b> — human-in-the-loop</div></div>
-    <div class="row"><div class="bar t2"><span class="tier">T2</span><span class="mode">veto</span></div>
-      <div class="side">fires unless a human <b>objects in a window</b> — human-on-the-loop</div></div>
-    <div class="row"><div class="bar t1"><span class="tier">T1</span><span class="mode">auto_notify</span></div>
-      <div class="side">acts, <b>then tells</b></div></div>
-    <div class="row"><div class="bar t0"><span class="tier">T0</span><span class="mode">auto_silent</span></div>
-      <div class="side">acts, <b>logs</b></div></div>
-  </div>
-
-  <div class="axis"><span>⟵ most of the volume lives down here</span><span class="mono">width ∝ intended share of actions</span></div>
+  <footer><span>human-out / on / in-the-loop, one axis</span><span>github.com/loic001/subsidium</span></footer>
 </section>
 
 <!-- ═══ 2 · DERIVATION ════════════════════════════════════════ -->
 <section id="derivation">
-  <div class="brand">subsidium</div>
+  <header><span class="fig">FIG. 02 — DERIVATION</span><span class="fig">subsidium</span></header>
   <h1>A tier is derived, never chosen</h1>
-  <p class="sub">Three <b>objective properties</b> of the action — never a model’s confidence score.
-  The whole input space is 12 cells; every cell is pinned by an exhaustive test, and three monotonicity
-  laws guarantee the table can’t be gamed by re-describing an action.</p>
+  <p class="sub">Three <b>objective properties</b> of the action — never a model’s confidence score. The whole
+  input space is 12 cells, every cell is pinned by an exhaustive test, and three monotonicity laws make the
+  table <b>impossible to game</b> by re-describing an action.</p>
 
-  <table>
-    <tr>
-      <th></th>
-      <th>domain: clear<br /><span style="font-weight:400;color:var(--faint)">a rule applies</span></th>
-      <th>domain: complicated<br /><span style="font-weight:400;color:var(--faint)">expertise needed</span></th>
-      <th>domain: complex<br /><span style="font-weight:400;color:var(--faint)">no right answer</span></th>
-    </tr>
-    <tr>
-      <th class="rowh">reversible · internal</th>
-      <td class="c0"><span class="big">T0 auto_silent</span><span class="why">a rule applied a rule</span></td>
-      <td class="c1"><span class="big">T1 auto_notify</span><span class="why">an expert may want to know</span></td>
-      <td class="c4"><span class="big">T4 human_decision</span><span class="why">a human frames it</span></td>
-    </tr>
-    <tr>
-      <th class="rowh">reversible · visible outside</th>
-      <td class="c2"><span class="big">T2 veto</span><span class="why">seen, but repairable</span></td>
-      <td class="c2"><span class="big">T2 veto</span><span class="why">seen, but repairable</span></td>
-      <td class="c4"><span class="big">T4 human_decision</span><span class="why">a human frames it</span></td>
-    </tr>
-    <tr>
-      <th class="rowh">irreversible · internal</th>
-      <td class="c2"><span class="big">T2 veto</span><span class="why">can’t undo, nobody outside sees</span></td>
-      <td class="c2"><span class="big">T2 veto</span><span class="why">can’t undo, nobody outside sees</span></td>
-      <td class="c4"><span class="big">T4 human_decision</span><span class="why">a human frames it</span></td>
-    </tr>
-    <tr>
-      <th class="rowh">irreversible · visible outside</th>
-      <td class="c3"><span class="big">T3 consent</span><span class="why">a sent message can’t be unsent</span></td>
-      <td class="c3"><span class="big">T3 consent</span><span class="why">a sent message can’t be unsent</span></td>
-      <td class="c4"><span class="big">T4 human_decision</span><span class="why">a human frames it</span></td>
-    </tr>
-  </table>
+  <div class="grid">
+    <div></div>
+    <div class="gh">clear<small>a rule applies</small></div>
+    <div class="gh">complicated<small>expertise needed</small></div>
+    <div class="gh">complex<small>no right answer</small></div>
+
+    <div class="rh">reversible · internal</div>
+    <div class="cell c0"><span class="t">T0 · auto_silent</span><span class="r">a rule applied a rule</span></div>
+    <div class="cell c1"><span class="t">T1 · auto_notify</span><span class="r">an expert may want to know</span></div>
+    <div class="cell c4"><span class="t">T4 · human_decision</span><span class="r">a human frames it</span></div>
+
+    <div class="rh">reversible · visible outside</div>
+    <div class="cell c2"><span class="t">T2 · veto</span><span class="r">seen, but repairable</span></div>
+    <div class="cell c2"><span class="t">T2 · veto</span><span class="r">seen, but repairable</span></div>
+    <div class="cell c4"><span class="t">T4 · human_decision</span><span class="r">a human frames it</span></div>
+
+    <div class="rh">irreversible · internal</div>
+    <div class="cell c2"><span class="t">T2 · veto</span><span class="r">no undo — but nobody outside sees</span></div>
+    <div class="cell c2"><span class="t">T2 · veto</span><span class="r">no undo — but nobody outside sees</span></div>
+    <div class="cell c4"><span class="t">T4 · human_decision</span><span class="r">a human frames it</span></div>
+
+    <div class="rh">irreversible · visible outside</div>
+    <div class="cell c3"><span class="t">T3 · consent</span><span class="r">a sent message can’t be unsent</span></div>
+    <div class="cell c3"><span class="t">T3 · consent</span><span class="r">a sent message can’t be unsent</span></div>
+    <div class="cell c4"><span class="t">T4 · human_decision</span><span class="r">a human frames it</span></div>
+  </div>
 
   <div class="legend">
-    <span><i style="background:var(--t0)"></i>autonomous</span>
-    <span><i style="background:var(--t2)"></i>veto window</span>
-    <span><i style="background:var(--t3)"></i>explicit consent</span>
-    <span><i style="background:var(--t4)"></i>human decides</span>
+    <span><i class="dotm" style="background:var(--t0)"></i>autonomous</span>
+    <span><i class="dotm" style="background:var(--t2)"></i>veto window</span>
+    <span><i class="dotm" style="background:var(--t3)"></i>explicit consent</span>
+    <span><i class="dotm" style="background:var(--t4)"></i>human decides</span>
   </div>
+
+  <footer><span>reversibility × visibility × cynefin domain</span><span>github.com/loic001/subsidium</span></footer>
 </section>
 
 <!-- ═══ 3 · GOVERNOR ══════════════════════════════════════════ -->
 <section id="governor">
-  <div class="brand">subsidium</div>
+  <header><span class="fig">FIG. 03 — THE GOVERNOR</span><span class="fig">subsidium</span></header>
   <h1>Promotion is earned, demotion is a cliff</h1>
   <p class="sub">Per action <b>kind</b>, learned from outcomes — thresholds are never hardcoded per task.
   Deep insights come before auto-pilot: <b>no measurement, no autonomy</b>.</p>
 
-  <div class="gov">
+  <div class="gtrack">
     <div class="stage">
-      <span class="k">DERIVED</span>
-      <span class="tierline" style="color:var(--t3)">T3 · consent</span>
-      <p>every send_reminder waits for a click. The track record starts empty.</p>
+      <span class="k">DERIVED TIER</span>
+      <span class="pill pl3"><i class="dotm" style="background:var(--t3)"></i>T3 · consent</span>
+      <p>Every <b>send_reminder</b> waits for a click.<br />The track record starts empty.</p>
     </div>
-    <div class="arrow slow">⟶<small>slow · earned<br />≥ 20 runs, failures ≤ 5%</small></div>
-    <div class="stage" style="border-color:#fbbf2455">
-      <span class="k">PROMOTED · one step, never more</span>
-      <span class="tierline" style="color:var(--t2)">T2 · veto</span>
-      <p>reminders now fire unless someone objects in the window. Still measured on every run.</p>
+
+    <div class="garrow">
+      <svg width="140" height="14" viewBox="0 0 140 14"><path d="M0 7 H128" stroke="#2dd4a7" stroke-width="2"/><path d="M126 1.5 L138 7 L126 12.5 Z" fill="#2dd4a7"/></svg>
+      <span class="al up">slow · earned<br />≥ 20 runs<br />failures ≤ 5%</span>
     </div>
-    <div class="arrow cliff">⟶<small>instant · sticky<br />one “this needed me”</small></div>
-    <div class="stage" style="border-color:#fb718555">
-      <span class="k">DEMOTED · UNTIL HUMAN RESET</span>
-      <span class="tierline" style="color:var(--t3)">T3 · consent</span>
-      <p>time does <b>not</b> re-promote. Only a deliberate reset reopens the path — and the record restarts from zero.</p>
+
+    <div class="stage" style="border-color:#f5b93e55; background:#f5b93e06">
+      <span class="k">PROMOTED — ONE STEP,<br />NEVER MORE</span>
+      <span class="pill pl2"><i class="dotm" style="background:var(--t2)"></i>T2 · veto</span>
+      <p>Reminders now fire unless someone objects in the window. <b>Still measured on every run.</b></p>
+    </div>
+
+    <div class="garrow">
+      <svg width="140" height="14" viewBox="0 0 140 14"><path d="M0 7 H128" stroke="#f26d7e" stroke-width="2"/><path d="M126 1.5 L138 7 L126 12.5 Z" fill="#f26d7e"/></svg>
+      <span class="al down">instant · sticky<br />one human says<br />“this needed me”</span>
+    </div>
+
+    <div class="stage" style="border-color:#f26d7e55; background:#f26d7e06">
+      <span class="k">DEMOTED — UNTIL A<br />DELIBERATE RESET</span>
+      <span class="pill pl3"><i class="dotm" style="background:var(--t3)"></i>T3 · consent</span>
+      <p>Time does <b>not</b> re-promote. Only a deliberate reset reopens the path — and the record <b>restarts from zero</b>.</p>
     </div>
   </div>
 
-  <div class="gov-notes">
-    <div class="note green"><span class="h">🟡 the yellow card</span>
-      “this did <b>not</b> need me” is <b>evidence for the review, never a lever</b>. You don’t reach
-      autonomy by reclassifying what gets counted.</div>
-    <div class="note red"><span class="h">⛰ why a cliff</span>
-      complacency drops <i>clear</i> straight into <i>chaotic</i> (Cynefin’s fold). The way up must be
-      a staircase, the way down a cliff.</div>
+  <div class="gnotes">
+    <div class="note green"><span class="h"><i class="dotm" style="background:var(--t2)"></i>THE YELLOW CARD</span>
+      “this did <b>not</b> need me” is <b>evidence for the review, never a lever</b>. You don’t reach autonomy
+      by reclassifying what gets counted.</div>
+    <div class="note red"><span class="h"><i class="dotm" style="background:var(--t3)"></i>WHY A CLIFF</span>
+      complacency drops <i>clear</i> straight into <i>chaotic</i> — Cynefin’s fold. The way up must be a
+      staircase, the way down a cliff.</div>
   </div>
+
+  <footer><span>TierGovernor — learned trust per action kind</span><span>github.com/loic001/subsidium</span></footer>
 </section>
 
 <!-- ═══ 4 · THREAD ════════════════════════════════════════════ -->
 <section id="thread">
-  <div class="brand">subsidium</div>
+  <header><span class="fig">FIG. 04 — THREADS</span><span class="fig">subsidium</span></header>
   <h1>Reframe, never force</h1>
-  <p class="sub">A thread is scoped to a subject <b>and a topic</b> — one person can hold many.
-  With a human counterpart, resampling is not free: <b>repetition has a punitive social cost</b>.</p>
+  <p class="sub">A thread is scoped to a subject <b>and a topic</b> — one person can hold many. With a human
+  counterpart, resampling is not free: <b>repetition has a punitive social cost</b>.</p>
 
-  <div class="flow">
+  <div class="ttrack">
     <div class="step nudge">
-      <div class="n">awaiting_reply</div>
-      <div class="t">nudge · ×1</div>
-      <p>one polite follow-up per frame. <b>The same message twice is structurally impossible.</b></p>
+      <span class="n">awaiting_reply</span>
+      <span class="t">NUDGE · ×1</span>
+      <p>One polite follow-up per frame. <b>The same message twice is structurally impossible.</b></p>
     </div>
-    <div class="arrow">⟶<small>frame<br />exhausted</small></div>
+    <div class="tarrow">
+      <svg width="96" height="14" viewBox="0 0 96 14"><path d="M0 7 H84" stroke="#3a4656" stroke-width="2"/><path d="M82 1.5 L94 7 L82 12.5 Z" fill="#3a4656"/></svg>
+      <span class="al">frame<br />exhausted</span>
+    </div>
     <div class="step reframe">
-      <div class="n">frame 2 of 3</div>
-      <div class="t">REFRAME</div>
-      <p>change the <b>channel</b>, the <b>counterpart</b>, or the <b>question</b> — more force at the same level never works.</p>
+      <span class="n">frame 2 of 3</span>
+      <span class="t">REFRAME</span>
+      <p>Change the <b>channel</b>, the <b>counterpart</b>, or the <b>question</b> — more force at the same level never works.</p>
     </div>
-    <div class="arrow">⟶<small>still<br />nothing</small></div>
+    <div class="tarrow">
+      <svg width="96" height="14" viewBox="0 0 96 14"><path d="M0 7 H84" stroke="#3a4656" stroke-width="2"/><path d="M82 1.5 L94 7 L82 12.5 Z" fill="#3a4656"/></svg>
+      <span class="al">still<br />nothing</span>
+    </div>
     <div class="step reframe">
-      <div class="n">frame 3 of 3</div>
-      <div class="t">REFRAME</div>
-      <p>last distinct angle. Each reframe resets the nudge budget: it <b>is</b> a new conversation move.</p>
+      <span class="n">frame 3 of 3</span>
+      <span class="t">REFRAME</span>
+      <p>Last distinct angle. Each reframe <b>resets the nudge budget</b>: it is a new conversation move.</p>
     </div>
-    <div class="arrow">⟶<small>frames<br />spent</small></div>
+    <div class="tarrow">
+      <svg width="96" height="14" viewBox="0 0 96 14"><path d="M0 7 H84" stroke="#3a4656" stroke-width="2"/><path d="M82 1.5 L94 7 L82 12.5 Z" fill="#3a4656"/></svg>
+      <span class="al">frames<br />spent</span>
+    </div>
     <div class="step close">
-      <div class="n">abandoned</div>
-      <div class="t">CLOSE</div>
+      <span class="n">abandoned</span>
+      <span class="t">CLOSE</span>
       <p><b>The topic is exhausted, not the counterpart.</b> The escalation signal ascends — compressed.</p>
     </div>
   </div>
 
-  <div class="banned">Any reply resets everything — <b>nudging someone who just answered is noise</b>, and a counterpart
-  who replied is never “stalled”. What ascends after a close is a <b>compressed</b> failure summary, never the raw history.</div>
+  <div class="law"><span class="bar"></span><span>Any reply resets everything — <b>nudging someone who just answered is noise</b>, and a counterpart
+  who replied is never “stalled”. What ascends after a close is a <b>compressed</b> failure summary, never the raw history.</span></div>
+
+  <footer><span>anti-schismogenesis: capped exchanges, the oracle arbitrates</span><span>github.com/loic001/subsidium</span></footer>
 </section>
 
 </body>
