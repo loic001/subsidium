@@ -1,0 +1,60 @@
+README.md
+  h_1f6a0b05af52de 124-161
+__tests__/sim.test.ts
+  h_1f6a0b05af52de 1-206
+__tests__/surface.test.ts
+  h_1f6a0b05af52de 28-32
+bench/report.ts
+  h_1f6a0b05af52de 1-68
+coverage/attention.ts.html
+  h_1f6a0b05af52de 1-268
+coverage/base.css
+  h_1f6a0b05af52de 1-224
+coverage/block-navigation.js
+  h_1f6a0b05af52de 1-87
+coverage/clover.xml
+  h_1f6a0b05af52de 1-444
+coverage/coverage-final.json
+  h_1f6a0b05af52de 1-9
+coverage/escalation.ts.html
+  h_1f6a0b05af52de 1-193
+coverage/governor.ts.html
+  h_1f6a0b05af52de 1-460
+coverage/index.html
+  h_1f6a0b05af52de 1-221
+coverage/index.ts.html
+  h_1f6a0b05af52de 1-130
+coverage/prettify.css
+  h_1f6a0b05af52de 1
+coverage/prettify.js
+  h_1f6a0b05af52de 1-2
+coverage/sim.ts.html
+  h_1f6a0b05af52de 1-1267
+coverage/sorter.js
+  h_1f6a0b05af52de 1-210
+coverage/thread.ts.html
+  h_1f6a0b05af52de 1-397
+coverage/tier.ts.html
+  h_1f6a0b05af52de 1-376
+coverage/types.ts.html
+  h_1f6a0b05af52de 1-703
+package.json
+  h_1f6a0b05af52de 25-26,30
+src/index.ts
+  h_1f6a0b05af52de 15
+src/sim.ts
+  h_1f6a0b05af52de 1-394
+tsconfig.json
+  h_1f6a0b05af52de 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "8e49b6c81f625a605c8887b97c46ab5d10f71d60",
+  "prompts": {},
+  "humans": {
+    "h_1f6a0b05af52de": {
+      "author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    }
+  }
+}
