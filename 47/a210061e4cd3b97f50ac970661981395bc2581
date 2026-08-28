@@ -1,0 +1,44 @@
+.gitignore
+  h_1f6a0b05af52de 1-2
+LICENSE
+  h_1f6a0b05af52de 1-21
+README.md
+  h_1f6a0b05af52de 1-110
+__tests__/attention.test.ts
+  h_1f6a0b05af52de 1-48
+__tests__/governor.test.ts
+  h_1f6a0b05af52de 1-73
+__tests__/thread.test.ts
+  h_1f6a0b05af52de 1-60
+__tests__/tier.test.ts
+  h_1f6a0b05af52de 1-94
+package.json
+  h_1f6a0b05af52de 1-30
+src/attention.ts
+  h_1f6a0b05af52de 1-42
+src/escalation.ts
+  h_1f6a0b05af52de 1-36
+src/governor.ts
+  h_1f6a0b05af52de 1-125
+src/index.ts
+  h_1f6a0b05af52de 1-14
+src/thread.ts
+  h_1f6a0b05af52de 1-104
+src/tier.ts
+  h_1f6a0b05af52de 1-93
+src/types.ts
+  h_1f6a0b05af52de 1-206
+tsconfig.json
+  h_1f6a0b05af52de 1-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "47a210061e4cd3b97f50ac970661981395bc2581",
+  "prompts": {},
+  "humans": {
+    "h_1f6a0b05af52de": {
+      "author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    }
+  }
+}
