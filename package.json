@@ -1,0 +1,30 @@
+{
+  "name": "subsidium",
+  "version": "0.1.0",
+  "description": "Operational-assistance framework: humans are the most expensive tier. Drive an existing system with agents, escalate to people only what has proven it needs them.",
+  "type": "module",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "private": true,
+  "keywords": [
+    "subsidiarity",
+    "human-in-the-loop",
+    "escalation",
+    "operations",
+    "agents",
+    "panarchy",
+    "attention-budget"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loic001/subsidium"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vitest": "^3.2.4"
+  }
+}
