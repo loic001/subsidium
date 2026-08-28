@@ -84,10 +84,14 @@ export function deriveTier(input: TierInput): TierVerdict {
 }
 
 function verdict(tier: Tier, reasons: string[]): TierVerdict {
+  /* v8 ignore start -- structurally unreachable tripwire: every call site
+     above pushes a reason before escalating, and the exhaustive table test
+     proves it over the whole input space. Kept because an unexplained
+     escalation is the exact failure mode this framework exists to prevent,
+     and a future edit that breaks the invariant must explode, not ship. */
   if (tier > 0 && reasons.length === 0) {
-    // Structurally unreachable, kept as a tripwire: an unexplained
-    // escalation is the exact failure mode this framework exists to prevent.
     throw new Error(`tier ${tier} without a reason`);
   }
+  /* v8 ignore stop */
   return { tier, mode: TIER_MODE[tier], reasons };
 }

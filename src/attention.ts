@@ -21,8 +21,26 @@ export const EMPTY_ATTENTION: AttentionState = { spentToday: 0, queued: 0 };
 
 export type AttentionDecision = { admit: true; state: AttentionState } | { admit: false; state: AttentionState };
 
+/**
+ * A budget that can never admit a single item is not a tight budget — it is
+ * a silent infinite queue: admit() would refuse forever and rollover() would
+ * drain zero, while the caller believes items are merely "waiting". That is
+ * a turkey (100% apparent handling, 0% real), so it throws at first use.
+ */
+function assertViable(budget: AttentionBudget): void {
+  if (budget.minutesPerItem <= 0 || budget.minutesPerDay <= 0) {
+    throw new Error(`attention budget must be positive (got ${budget.minutesPerDay}/day, ${budget.minutesPerItem}/item)`);
+  }
+  if (budget.minutesPerItem > budget.minutesPerDay) {
+    throw new Error(
+      `attention budget can never admit a single item (${budget.minutesPerItem} min/item > ${budget.minutesPerDay} min/day): this is a silent infinite queue, not a tight budget`,
+    );
+  }
+}
+
 /** Try to put one item in front of the human today. */
 export function admit(budget: AttentionBudget, state: AttentionState): AttentionDecision {
+  assertViable(budget);
   const after = state.spentToday + budget.minutesPerItem;
   if (after <= budget.minutesPerDay) {
     return { admit: true, state: { ...state, spentToday: after } };
@@ -32,6 +50,7 @@ export function admit(budget: AttentionBudget, state: AttentionState): Attention
 
 /** New day: budget regenerates, the queue drains first, oldest first. */
 export function rollover(budget: AttentionBudget, state: AttentionState): AttentionState & { drained: number } {
+  assertViable(budget);
   const capacity = Math.floor(budget.minutesPerDay / budget.minutesPerItem);
   const drained = Math.min(state.queued, capacity);
   return {

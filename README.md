@@ -1,5 +1,7 @@
 # subsidium
 
+[![ci](https://github.com/loic001/subsidium/actions/workflows/ci.yml/badge.svg)](https://github.com/loic001/subsidium/actions/workflows/ci.yml)
+
 ### Humans are the most expensive tier.
 
 Subsidium is an operational-assistance framework for driving an **existing**
@@ -94,6 +96,31 @@ inbox teaches its owner to ignore all of it.
 | `TierGovernor` | learned trust per action kind: slow earned promotion, instant sticky demotion |
 | `EscalationSignal` | the compressed failure that ascends |
 | `AttentionBudget` | minutes per day, minutes per item — the human tier's ledger |
+
+## Tested like it decides someone's day — because it does
+
+Every primitive here decides whether a human gets disturbed, so the test
+bar is the sibling repo's, not the industry's:
+
+- **100% coverage on `src/` — statements, branches, functions, lines —
+  enforced in CI** (`vitest.config.ts` thresholds: the build fails below).
+  The only tolerated gap is an explicit `v8 ignore` block carrying its
+  justification inline (there is exactly one: a structurally unreachable
+  tripwire, proven unreachable by the exhaustive table test).
+- **The classifier is tested over its ENTIRE input space** (2×2×3 = 12
+  cells — no excuse for sampling), plus three monotonicity laws: losing
+  reversibility, gaining visibility, or hardening the domain can never
+  LOWER a tier. Without monotonicity the pyramid can be gamed by
+  re-describing an action.
+- **The governor is fuzzed** with seeded random event sequences (n=500)
+  against its core invariant: the effective tier is always the derived
+  tier or exactly one below, never lower.
+- **Pathological configs explode instead of degrading silently**: an
+  attention budget that can never admit a single item throws at first use
+  — a silent infinite queue wearing the costume of a tight budget is a
+  turkey.
+
+Run it: `npm install && npm run typecheck && npm run coverage`.
 
 ## Status — read before using
 

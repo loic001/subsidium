@@ -58,3 +58,49 @@ describe('nextMove — the anti-rigidity-trap gate', () => {
     expect(nextMove(transition(fresh, { kind: 'closed' }))).toEqual({ move: 'wait' });
   });
 });
+
+describe('transition — the full state machine', () => {
+  it('stalling marks the thread without touching its counters', () => {
+    const nudged = transition(fresh, { kind: 'nudged' });
+    const stalled = transition(nudged, { kind: 'stalled' });
+    expect(stalled).toEqual({ status: 'stalled', nudgesSinceReply: 1, framesTried: 0 });
+  });
+
+  it('a stalled thread obeys the same gate: its frame is spent, so it must reframe', () => {
+    const stalled = transition(transition(fresh, { kind: 'nudged' }), { kind: 'stalled' });
+    expect(nextMove(stalled).move).toBe('reframe');
+  });
+
+  it('a stalled thread with a fresh frame may still nudge once', () => {
+    const stalled = transition(fresh, { kind: 'stalled' });
+    expect(nextMove(stalled)).toEqual({ move: 'nudge' });
+  });
+
+  it('a reply revives even a stalled thread', () => {
+    const stalled = transition(fresh, { kind: 'stalled' });
+    const revived = transition(stalled, { kind: 'counterpart_replied' });
+    expect(revived.status).toBe('answered');
+    expect(revived.nudgesSinceReply).toBe(0);
+  });
+
+  it('the close reason counts frames honestly', () => {
+    let s = fresh;
+    s = transition(s, { kind: 'nudged' });
+    s = transition(s, { kind: 'reframed' });
+    s = transition(s, { kind: 'nudged' });
+    s = transition(s, { kind: 'reframed' });
+    s = transition(s, { kind: 'nudged' });
+    const move = nextMove(s);
+    expect(move.move).toBe('close');
+    if (move.move === 'close') expect(move.reason).toContain('3 frames');
+  });
+
+  it('a stricter policy is honored — zero nudges means reframe immediately', () => {
+    expect(nextMove(fresh, { maxNudgesPerFrame: 0, maxFrames: 2 }).move).toBe('reframe');
+  });
+
+  it('a single-frame policy closes as soon as the frame is spent', () => {
+    const nudged = transition(fresh, { kind: 'nudged' });
+    expect(nextMove(nudged, { maxNudgesPerFrame: 1, maxFrames: 1 }).move).toBe('close');
+  });
+});

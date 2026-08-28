@@ -1,0 +1,18 @@
+# Typecheck + tests + coverage (100% enforced on src/, see vitest.config.ts).
+# A red badge here means the pyramid cannot be trusted today.
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npm run typecheck
+      - run: npm run coverage
