@@ -30,23 +30,15 @@ The discriminator between tiers is never "how much the AI does". It is
 **who holds the fallback** (the lesson of SAE J3016, and of the
 human-in/on/out-of-the-loop vocabulary).
 
-| Tier | Mode | Who holds the fallback |
-|---|---|---|
-| T0 | `auto_silent` | nobody — acts, logs |
-| T1 | `auto_notify` | nobody — acts, then tells |
-| T2 | `veto` | a human MAY object within a window; silence lets it fire |
-| T3 | `consent` | a human MUST click |
-| T4 | `human_decision` | the system prepares the file and asks ONE question |
-| T5 | `out_of_scope` | the system only signals |
+![The subsidiarity pyramid — six tiers from auto_silent to out_of_scope, width proportional to intended share of actions, the human on top with a finite attention budget](art/pyramid.png)
 
 A tier is **derived, never chosen**, from three objective properties —
 never from a model's confidence score, which is neither calibrated nor the
-right axis:
+right axis: **reversibility** (a sent message cannot be unsent),
+**external visibility** (does anyone outside the organization see it?),
+and the **Cynefin domain** (clear / complicated / complex).
 
-1. **Reversibility** — can the effect be undone? (A sent message cannot.)
-2. **External visibility** — does anyone outside the organization see it?
-3. **Cynefin domain** — clear (a rule applies) / complicated (expertise) /
-   complex (no right answer: a human frames it).
+![A tier is derived, never chosen — the full 12-cell truth table: reversibility and visibility as rows, Cynefin domain as columns, each cell carrying its tier and its reason](art/derivation.png)
 
 Every tier above 0 carries human-readable reasons, enforced structurally.
 An unexplained escalation is the exact failure mode this framework exists
@@ -68,11 +60,15 @@ stickily. The yellow card — "this did *not* need me" — is evidence for the
 review, never a lever: you do not reach autonomy by reclassifying what
 gets counted.
 
+![Promotion is earned, demotion is a cliff — derived T3, promoted to T2 after 20 clean runs under the error budget, snapped back to T3 by one human contest, sticky until a deliberate reset](art/governor.png)
+
 **Reframe, never force.** With a human counterpart, resampling is not free:
 repetition has a punitive social cost. A stalled thread is never re-nudged
 identically — the next move must change the channel, the counterpart, or
 the question, or close the thread (Bateson; measured in panarchy-llm as
 decomposition 98% vs escalation 90%).
+
+![Reframe, never force — one nudge per frame, then reframe by changing channel, counterpart or question, three frames maximum, then close: the topic is exhausted, not the counterpart](art/thread.png)
 
 **Errors ascend compressed.** The tier above needs to know what failed and
 what was tried — never the raw history (Beer's algedonic signal, Friston's
@@ -121,6 +117,9 @@ bar is the sibling repo's, not the industry's:
   turkey.
 
 Run it: `npm install && npm run typecheck && npm run coverage`.
+
+The figures above are not hand-drawn: their HTML source lives in
+[`art/diagrams.html`](art/diagrams.html) — edit, reload, re-shoot.
 
 ## Status — read before using
 

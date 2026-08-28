@@ -1,0 +1,293 @@
+<!doctype html>
+<!--
+  subsidium · diagram source
+
+  Each <section> below is one README figure, screenshotted as-is into
+  art/*.png. The HTML is versioned so the figures are regenerable: edit,
+  reload, re-shoot. Design: dark slate, one semantic color per tier
+  (green = autonomous, amber = veto, red = consent, violet = human),
+  large type so the PNGs stay crisp when GitHub downscales them.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>subsidium diagrams</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0d1117;
+    --panel: #161c26;
+    --line: #2a3342;
+    --text: #e8edf4;
+    --mute: #9aa7b8;
+    --faint: #5d6b7e;
+    --t0: #34d399; --t1: #6ee7b7; --t2: #fbbf24; --t3: #fb7185; --t4: #a78bfa; --t5: #64748b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #05070a; font-family: 'Inter', -apple-system, sans-serif; color: var(--text); }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  section {
+    width: 1560px; padding: 72px 84px; margin: 40px auto;
+    background: radial-gradient(1200px 600px at 20% -10%, #131a26 0%, var(--bg) 60%);
+    border: 1px solid var(--line); border-radius: 24px;
+    position: relative; overflow: hidden;
+  }
+  .brand { position: absolute; top: 34px; right: 44px; font-family: 'JetBrains Mono', monospace; font-size: 17px; color: var(--faint); letter-spacing: .08em; }
+  h1 { font-size: 46px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 10px; }
+  .sub { font-size: 23px; color: var(--mute); margin-bottom: 56px; font-weight: 400; max-width: 1200px; line-height: 1.45; }
+  .sub b { color: var(--text); font-weight: 600; }
+
+  /* ── pyramid ─────────────────────────────────────────────── */
+  .pyr { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .row { display: flex; align-items: center; gap: 28px; width: 100%; justify-content: center; }
+  .bar {
+    height: 86px; border-radius: 14px; display: flex; align-items: center;
+    padding: 0 30px; gap: 22px; border: 1.5px solid;
+  }
+  .bar .tier { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 27px; }
+  .bar .mode { font-family: 'JetBrains Mono', monospace; font-size: 21px; opacity: .85; }
+  .side { width: 470px; font-size: 21px; color: var(--mute); line-height: 1.35; flex-shrink: 0; }
+  .side b { color: var(--text); font-weight: 600; }
+  .t5 { width: 300px; background: #64748b14; border-color: #64748b66; color: var(--t5); }
+  .t4 { width: 440px; background: #a78bfa12; border-color: #a78bfa66; color: var(--t4); }
+  .t3 { width: 580px; background: #fb718512; border-color: #fb718566; color: var(--t3); }
+  .t2 { width: 720px; background: #fbbf2412; border-color: #fbbf2466; color: var(--t2); }
+  .t1 { width: 860px; background: #6ee7b710; border-color: #6ee7b755; color: var(--t1); }
+  .t0 { width: 1000px; background: #34d39910; border-color: #34d39955; color: var(--t0); }
+  .human {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 26px;
+    color: var(--mute); font-size: 22px;
+  }
+  .human .chip {
+    border: 1.5px dashed #a78bfa88; color: #c4b5fd; border-radius: 999px;
+    padding: 10px 24px; font-family: 'JetBrains Mono', monospace; font-size: 20px;
+  }
+  .axis { display: flex; justify-content: space-between; width: 1000px; margin-top: 30px; color: var(--faint); font-size: 20px; }
+  .axis .mono { color: var(--faint); }
+
+  /* ── derivation table ────────────────────────────────────── */
+  table { border-collapse: separate; border-spacing: 12px; margin: 0 auto; }
+  th { font-size: 21px; font-weight: 600; color: var(--mute); padding: 10px 16px; text-align: center; }
+  th.rowh { text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: 20px; max-width: 330px; line-height: 1.4; }
+  td {
+    width: 300px; height: 108px; border-radius: 14px; text-align: center; vertical-align: middle;
+    border: 1.5px solid;
+  }
+  td .big { font-family: 'JetBrains Mono', monospace; font-size: 30px; font-weight: 600; display: block; }
+  td .why { font-size: 18px; opacity: .8; display: block; margin-top: 6px; }
+  td.c0 { background: #34d39914; border-color: #34d39966; color: var(--t0); }
+  td.c1 { background: #6ee7b712; border-color: #6ee7b760; color: var(--t1); }
+  td.c2 { background: #fbbf2414; border-color: #fbbf2466; color: var(--t2); }
+  td.c3 { background: #fb718514; border-color: #fb718566; color: var(--t3); }
+  td.c4 { background: #a78bfa14; border-color: #a78bfa66; color: var(--t4); }
+  .legend { display: flex; gap: 34px; justify-content: center; margin-top: 44px; font-size: 20px; color: var(--mute); }
+  .legend i { display: inline-block; width: 14px; height: 14px; border-radius: 4px; margin-right: 10px; }
+
+  /* ── governor ────────────────────────────────────────────── */
+  .gov { display: flex; align-items: stretch; gap: 26px; justify-content: center; }
+  .stage {
+    flex: 1; max-width: 420px; border-radius: 18px; border: 1.5px solid var(--line);
+    background: var(--panel); padding: 30px 30px 26px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .stage .k { font-family: 'JetBrains Mono', monospace; font-size: 19px; color: var(--faint); letter-spacing: .06em; }
+  .stage .tierline { font-family: 'JetBrains Mono', monospace; font-size: 34px; font-weight: 600; }
+  .stage p { font-size: 20px; color: var(--mute); line-height: 1.5; }
+  .stage p b { color: var(--text); }
+  .arrow { align-self: center; font-size: 40px; color: var(--faint); padding: 0 2px; }
+  .arrow small { display: block; font-size: 17px; text-align: center; margin-top: 4px; }
+  .slow { color: var(--t0); }
+  .cliff { color: var(--t3); }
+  .gov-notes { display: flex; gap: 26px; margin-top: 42px; justify-content: center; }
+  .note {
+    border-radius: 16px; padding: 24px 30px; font-size: 20px; line-height: 1.5;
+    border: 1.5px solid; max-width: 640px;
+  }
+  .note.green { border-color: #34d39955; background: #34d3990d; color: var(--mute); }
+  .note.red { border-color: #fb718555; background: #fb71850d; color: var(--mute); }
+  .note b { color: var(--text); }
+  .note .h { font-weight: 800; font-size: 21px; display: block; margin-bottom: 8px; }
+  .note.green .h { color: var(--t0); }
+  .note.red .h { color: var(--t3); }
+
+  /* ── thread ──────────────────────────────────────────────── */
+  .flow { display: flex; align-items: center; gap: 22px; justify-content: center; }
+  .step {
+    border-radius: 18px; border: 1.5px solid var(--line); background: var(--panel);
+    padding: 28px 30px; width: 330px; min-height: 240px;
+  }
+  .step .n { font-family: 'JetBrains Mono', monospace; color: var(--faint); font-size: 19px; margin-bottom: 12px; }
+  .step .t { font-size: 27px; font-weight: 800; margin-bottom: 12px; }
+  .step p { font-size: 20px; color: var(--mute); line-height: 1.5; }
+  .step p b { color: var(--text); }
+  .step.reframe { border-color: #fbbf2466; background: #fbbf2408; }
+  .step.reframe .t { color: var(--t2); }
+  .step.close { border-color: #64748b66; }
+  .step.close .t { color: var(--t5); }
+  .step.nudge .t { color: var(--t1); }
+  .banned {
+    margin: 46px auto 0; max-width: 1100px; border: 1.5px solid #fb718555; background: #fb71850d;
+    border-radius: 16px; padding: 24px 32px; font-size: 21px; color: var(--mute); line-height: 1.55; text-align: center;
+  }
+  .banned b { color: var(--t3); }
+</style>
+</head>
+<body>
+
+<!-- ═══ 1 · THE PYRAMID ═══════════════════════════════════════ -->
+<section id="pyramid">
+  <div class="brand">subsidium</div>
+  <h1>The subsidiarity pyramid</h1>
+  <p class="sub">The discriminator is never “how much the AI does” — it is <b>who holds the fallback</b>.
+  Decisions belong to the lowest tier able to carry them: <b>escalation bears the burden of proof, never autonomy</b>.</p>
+
+  <div class="human">
+    <span class="chip">☻ human — attention budget: n minutes / day</span>
+    <span>when the minutes are spent, escalations <b style="color:var(--text)">queue</b> — they never spill</span>
+  </div>
+
+  <div class="pyr">
+    <div class="row"><div class="bar t5"><span class="tier">T5</span><span class="mode">out_of_scope</span></div>
+      <div class="side">the system only <b>signals</b></div></div>
+    <div class="row"><div class="bar t4"><span class="tier">T4</span><span class="mode">human_decision</span></div>
+      <div class="side">prepares the file, asks <b>one question</b> — a human decides</div></div>
+    <div class="row"><div class="bar t3"><span class="tier">T3</span><span class="mode">consent</span></div>
+      <div class="side">a human <b>must click</b> — human-in-the-loop</div></div>
+    <div class="row"><div class="bar t2"><span class="tier">T2</span><span class="mode">veto</span></div>
+      <div class="side">fires unless a human <b>objects in a window</b> — human-on-the-loop</div></div>
+    <div class="row"><div class="bar t1"><span class="tier">T1</span><span class="mode">auto_notify</span></div>
+      <div class="side">acts, <b>then tells</b></div></div>
+    <div class="row"><div class="bar t0"><span class="tier">T0</span><span class="mode">auto_silent</span></div>
+      <div class="side">acts, <b>logs</b></div></div>
+  </div>
+
+  <div class="axis"><span>⟵ most of the volume lives down here</span><span class="mono">width ∝ intended share of actions</span></div>
+</section>
+
+<!-- ═══ 2 · DERIVATION ════════════════════════════════════════ -->
+<section id="derivation">
+  <div class="brand">subsidium</div>
+  <h1>A tier is derived, never chosen</h1>
+  <p class="sub">Three <b>objective properties</b> of the action — never a model’s confidence score.
+  The whole input space is 12 cells; every cell is pinned by an exhaustive test, and three monotonicity
+  laws guarantee the table can’t be gamed by re-describing an action.</p>
+
+  <table>
+    <tr>
+      <th></th>
+      <th>domain: clear<br /><span style="font-weight:400;color:var(--faint)">a rule applies</span></th>
+      <th>domain: complicated<br /><span style="font-weight:400;color:var(--faint)">expertise needed</span></th>
+      <th>domain: complex<br /><span style="font-weight:400;color:var(--faint)">no right answer</span></th>
+    </tr>
+    <tr>
+      <th class="rowh">reversible · internal</th>
+      <td class="c0"><span class="big">T0 auto_silent</span><span class="why">a rule applied a rule</span></td>
+      <td class="c1"><span class="big">T1 auto_notify</span><span class="why">an expert may want to know</span></td>
+      <td class="c4"><span class="big">T4 human_decision</span><span class="why">a human frames it</span></td>
+    </tr>
+    <tr>
+      <th class="rowh">reversible · visible outside</th>
+      <td class="c2"><span class="big">T2 veto</span><span class="why">seen, but repairable</span></td>
+      <td class="c2"><span class="big">T2 veto</span><span class="why">seen, but repairable</span></td>
+      <td class="c4"><span class="big">T4 human_decision</span><span class="why">a human frames it</span></td>
+    </tr>
+    <tr>
+      <th class="rowh">irreversible · internal</th>
+      <td class="c2"><span class="big">T2 veto</span><span class="why">can’t undo, nobody outside sees</span></td>
+      <td class="c2"><span class="big">T2 veto</span><span class="why">can’t undo, nobody outside sees</span></td>
+      <td class="c4"><span class="big">T4 human_decision</span><span class="why">a human frames it</span></td>
+    </tr>
+    <tr>
+      <th class="rowh">irreversible · visible outside</th>
+      <td class="c3"><span class="big">T3 consent</span><span class="why">a sent message can’t be unsent</span></td>
+      <td class="c3"><span class="big">T3 consent</span><span class="why">a sent message can’t be unsent</span></td>
+      <td class="c4"><span class="big">T4 human_decision</span><span class="why">a human frames it</span></td>
+    </tr>
+  </table>
+
+  <div class="legend">
+    <span><i style="background:var(--t0)"></i>autonomous</span>
+    <span><i style="background:var(--t2)"></i>veto window</span>
+    <span><i style="background:var(--t3)"></i>explicit consent</span>
+    <span><i style="background:var(--t4)"></i>human decides</span>
+  </div>
+</section>
+
+<!-- ═══ 3 · GOVERNOR ══════════════════════════════════════════ -->
+<section id="governor">
+  <div class="brand">subsidium</div>
+  <h1>Promotion is earned, demotion is a cliff</h1>
+  <p class="sub">Per action <b>kind</b>, learned from outcomes — thresholds are never hardcoded per task.
+  Deep insights come before auto-pilot: <b>no measurement, no autonomy</b>.</p>
+
+  <div class="gov">
+    <div class="stage">
+      <span class="k">DERIVED</span>
+      <span class="tierline" style="color:var(--t3)">T3 · consent</span>
+      <p>every send_reminder waits for a click. The track record starts empty.</p>
+    </div>
+    <div class="arrow slow">⟶<small>slow · earned<br />≥ 20 runs, failures ≤ 5%</small></div>
+    <div class="stage" style="border-color:#fbbf2455">
+      <span class="k">PROMOTED · one step, never more</span>
+      <span class="tierline" style="color:var(--t2)">T2 · veto</span>
+      <p>reminders now fire unless someone objects in the window. Still measured on every run.</p>
+    </div>
+    <div class="arrow cliff">⟶<small>instant · sticky<br />one “this needed me”</small></div>
+    <div class="stage" style="border-color:#fb718555">
+      <span class="k">DEMOTED · UNTIL HUMAN RESET</span>
+      <span class="tierline" style="color:var(--t3)">T3 · consent</span>
+      <p>time does <b>not</b> re-promote. Only a deliberate reset reopens the path — and the record restarts from zero.</p>
+    </div>
+  </div>
+
+  <div class="gov-notes">
+    <div class="note green"><span class="h">🟡 the yellow card</span>
+      “this did <b>not</b> need me” is <b>evidence for the review, never a lever</b>. You don’t reach
+      autonomy by reclassifying what gets counted.</div>
+    <div class="note red"><span class="h">⛰ why a cliff</span>
+      complacency drops <i>clear</i> straight into <i>chaotic</i> (Cynefin’s fold). The way up must be
+      a staircase, the way down a cliff.</div>
+  </div>
+</section>
+
+<!-- ═══ 4 · THREAD ════════════════════════════════════════════ -->
+<section id="thread">
+  <div class="brand">subsidium</div>
+  <h1>Reframe, never force</h1>
+  <p class="sub">A thread is scoped to a subject <b>and a topic</b> — one person can hold many.
+  With a human counterpart, resampling is not free: <b>repetition has a punitive social cost</b>.</p>
+
+  <div class="flow">
+    <div class="step nudge">
+      <div class="n">awaiting_reply</div>
+      <div class="t">nudge · ×1</div>
+      <p>one polite follow-up per frame. <b>The same message twice is structurally impossible.</b></p>
+    </div>
+    <div class="arrow">⟶<small>frame<br />exhausted</small></div>
+    <div class="step reframe">
+      <div class="n">frame 2 of 3</div>
+      <div class="t">REFRAME</div>
+      <p>change the <b>channel</b>, the <b>counterpart</b>, or the <b>question</b> — more force at the same level never works.</p>
+    </div>
+    <div class="arrow">⟶<small>still<br />nothing</small></div>
+    <div class="step reframe">
+      <div class="n">frame 3 of 3</div>
+      <div class="t">REFRAME</div>
+      <p>last distinct angle. Each reframe resets the nudge budget: it <b>is</b> a new conversation move.</p>
+    </div>
+    <div class="arrow">⟶<small>frames<br />spent</small></div>
+    <div class="step close">
+      <div class="n">abandoned</div>
+      <div class="t">CLOSE</div>
+      <p><b>The topic is exhausted, not the counterpart.</b> The escalation signal ascends — compressed.</p>
+    </div>
+  </div>
+
+  <div class="banned">Any reply resets everything — <b>nudging someone who just answered is noise</b>, and a counterpart
+  who replied is never “stalled”. What ascends after a close is a <b>compressed</b> failure summary, never the raw history.</div>
+</section>
+
+</body>
+</html>
