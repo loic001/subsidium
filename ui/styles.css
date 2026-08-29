@@ -1,0 +1,189 @@
+/**
+ * subsidium/ui — host-overridable tokens. Defaults match a dark ops surface.
+ * Import once: `import 'subsidium/ui/styles.css'`
+ */
+.sub-root {
+  --sub-text: oklch(0.93 0.004 350);
+  --sub-mute: oklch(0.665 0.01 350);
+  --sub-faint: oklch(0.5 0.008 350);
+  --sub-accent: oklch(0.7 0.185 12);
+  --sub-warn: oklch(0.82 0.125 85);
+  --sub-panel: oklch(0.225 0.01 350);
+  --sub-line: oklch(0.245 0.01 350);
+  --sub-font: ui-sans-serif, system-ui, sans-serif;
+  --sub-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+  color: var(--sub-text);
+  font-family: var(--sub-font);
+  font-size: 15px;
+  line-height: 1.45;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.sub-kicker {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sub-faint);
+}
+
+.sub-title {
+  margin: 0.5rem 0 0;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.sub-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  margin-top: 0.5rem;
+  font-size: 13px;
+  color: var(--sub-mute);
+}
+
+.sub-mono {
+  font-family: var(--sub-mono);
+}
+
+.sub-accent {
+  color: var(--sub-accent);
+}
+
+.sub-warn {
+  color: var(--sub-warn);
+}
+
+.sub-why {
+  margin-top: 2rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid color-mix(in oklch, var(--sub-accent) 25%, transparent);
+  border-radius: 12px;
+  background: color-mix(in oklch, var(--sub-accent) 8%, transparent);
+}
+
+.sub-why p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.sub-why .sub-reasons {
+  margin-top: 0.5rem;
+  font-size: 12px;
+  color: var(--sub-mute);
+}
+
+.sub-section {
+  margin-top: 2.5rem;
+}
+
+.sub-section h2 {
+  margin: 0 0 0.75rem;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sub-faint);
+}
+
+.sub-ask {
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  border-left: 2px solid color-mix(in oklch, var(--sub-accent) 50%, transparent);
+  background: color-mix(in oklch, var(--sub-panel) 70%, transparent);
+  border-radius: 0 8px 8px 0;
+  white-space: pre-wrap;
+  font-size: 13px;
+}
+
+.sub-prose {
+  margin: 0;
+  font-size: 13px;
+  white-space: pre-wrap;
+}
+
+.sub-prose + .sub-prose {
+  margin-top: 0.75rem;
+  color: var(--sub-mute);
+}
+
+.sub-empty {
+  font-size: 13px;
+  color: var(--sub-faint);
+}
+
+.sub-tl {
+  margin: 0;
+  padding: 0 0 0 1rem;
+  border-left: 1px solid var(--sub-line);
+  list-style: none;
+}
+
+.sub-tl li {
+  position: relative;
+  margin: 0 0 1rem;
+}
+
+.sub-tl li:last-child {
+  margin-bottom: 0;
+}
+
+.sub-tl li::before {
+  content: '';
+  position: absolute;
+  left: -1.2rem;
+  top: 0.45rem;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 99px;
+  background: color-mix(in oklch, var(--sub-accent) 70%, transparent);
+}
+
+.sub-tl time {
+  font-family: var(--sub-mono);
+  font-size: 11px;
+  color: var(--sub-faint);
+}
+
+.sub-refs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 13px;
+}
+
+.sub-refs a {
+  color: var(--sub-accent);
+  text-underline-offset: 2px;
+}
+
+.sub-foot {
+  margin-top: 3rem;
+  font-size: 12px;
+  color: var(--sub-faint);
+}
+
+.sub-band {
+  margin: 1.5rem 0 0.75rem;
+}
+
+.sub-band h3 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.sub-band p {
+  margin: 0.2rem 0 0;
+  font-size: 12px;
+  color: var(--sub-mute);
+}
+
+.sub-chip {
+  font-family: var(--sub-mono);
+  font-size: 12px;
+}

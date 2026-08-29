@@ -30,6 +30,9 @@ describe('the package surface', () => {
       'simulateOutreach',
       'averageGating',
       'defaultWorld',
+      'whyEscalated',
+      'tierMeta',
+      'bandByTier',
     ];
     for (const name of expected) {
       expect(subsidium, name).toHaveProperty(name);

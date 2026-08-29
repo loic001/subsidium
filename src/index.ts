@@ -13,3 +13,4 @@ export * from './thread';
 export * from './attention';
 export * from './escalation';
 export * from './sim';
+export * from './dashboard';

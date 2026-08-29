@@ -159,6 +159,25 @@ What it cannot prove: the assumptions. Production keeps the final word —
 a simulation win is a license to run the real experiment, never a
 substitute for it.
 
+## The dashboard — `subsidium/ui`
+
+The kernel is the intermediary. You declare the host system (channels,
+actions, subjects, a queue). The visual layer is built from that — you
+do not redraw Approvals / the pyramid / an escalation briefing for every
+business. Drop the bricks in your own app:
+
+```ts
+import 'subsidium/ui/styles.css'
+import { EscalationBriefView, TierBands } from 'subsidium/ui'
+import { deriveTier, whyEscalated, bandByTier } from 'subsidium'
+```
+
+- **`TierBands`** — the inbox, grouped from T0 (autonomous) to T5 (human).
+- **`EscalationBriefView`** — the read-only page a teammate opens from a
+  capability-token URL: the problem, why it rose the pyramid, the timeline.
+- **`whyEscalated` / `bandByTier` / `tierMeta`** live in the kernel (pure,
+  100% tested). React is a peer dependency of `./ui` only.
+
 ## Status — read before using
 
 Extracted from a production system operating a payments company's merchant
