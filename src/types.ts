@@ -183,6 +183,13 @@ export interface EscalationSignal {
  */
 export type ThreadStatus = 'awaiting_reply' | 'answered' | 'stalled' | 'resolved' | 'abandoned';
 
+/** Identity of a thread. Place and person are the current FRAME, not the key. */
+export interface ThreadId {
+  subjectId: string;
+  /** Opaque host key — already normalized (`normalizeTopic`). */
+  topic: string;
+}
+
 export interface ThreadState {
   status: ThreadStatus;
   /** Nudges sent since the last counterpart reply. */

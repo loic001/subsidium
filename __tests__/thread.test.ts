@@ -4,7 +4,15 @@
  * member asked in writing to stop receiving automated DMs.
  */
 import { describe, expect, it } from 'vitest';
-import { nextMove, transition } from '../src/thread';
+import {
+  nextMove,
+  normalizeTopic,
+  pickReframe,
+  sameThread,
+  threadKey,
+  threadState,
+  transition,
+} from '../src/thread';
 import type { ThreadState } from '../src/types';
 
 const fresh: ThreadState = { status: 'awaiting_reply', nudgesSinceReply: 0, framesTried: 0 };
@@ -102,5 +110,52 @@ describe('transition — the full state machine', () => {
   it('a single-frame policy closes as soon as the frame is spent', () => {
     const nudged = transition(fresh, { kind: 'nudged' });
     expect(nextMove(nudged, { maxNudgesPerFrame: 1, maxFrames: 1 }).move).toBe('close');
+  });
+});
+
+describe('ThreadId — subject AND topic, never a place or a person', () => {
+  it('the same merchant + the same question is one thread, three channels or not', () => {
+    const a = { subjectId: 'acc_1', topic: normalizeTopic('compliance_pending') };
+    const b = { subjectId: 'acc_1', topic: normalizeTopic('Compliance pending') };
+    expect(sameThread(a, b)).toBe(true);
+    expect(threadKey(a)).toBe(threadKey(b));
+  });
+
+  it('two questions with the same person are two threads', () => {
+    expect(
+      sameThread(
+        { subjectId: 'acc_1', topic: 'compliance_pending' },
+        { subjectId: 'acc_1', topic: 'am_contact' },
+      ),
+    ).toBe(false);
+  });
+
+  it('the same question on two merchants is two threads', () => {
+    expect(
+      sameThread(
+        { subjectId: 'acc_1', topic: 'compliance_pending' },
+        { subjectId: 'acc_2', topic: 'compliance_pending' },
+      ),
+    ).toBe(false);
+  });
+
+  it('threadState is a copy, not a live view', () => {
+    const input = { status: 'awaiting_reply' as const, nudgesSinceReply: 1, framesTried: 2 };
+    const s = threadState(input);
+    expect(s).toEqual(input);
+    input.nudgesSinceReply = 9;
+    expect(s.nudgesSinceReply).toBe(1);
+  });
+});
+
+describe('pickReframe — a new frame must change an axis', () => {
+  it('prefers channel, then question, counterpart last', () => {
+    expect(pickReframe([])).toBe('channel');
+    expect(pickReframe(['channel'])).toBe('question');
+    expect(pickReframe(['channel', 'question'])).toBe('counterpart');
+  });
+
+  it('returns null when every axis was tried — close, do not invent a fourth', () => {
+    expect(pickReframe(['channel', 'question', 'counterpart'])).toBeNull();
   });
 });

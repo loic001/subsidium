@@ -15,7 +15,55 @@
  *  move must CHANGE something (channel, counterpart, or question) or close
  *  the thread. `nextMove` encodes exactly that.
  */
-import type { ThreadState, ThreadStatus } from './types';
+import type { ThreadId, ThreadState, ThreadStatus } from './types';
+
+/** What a reframe is allowed to change. The host picks HOW; the kernel picks THAT it must change. */
+export type ReframeAxis = 'channel' | 'counterpart' | 'question';
+
+export const REFRAME_AXES: readonly ReframeAxis[] = ['channel', 'question', 'counterpart'];
+
+/**
+ * First unused axis, in order: channel (the team can see), question, counterpart
+ * last (do not bounce a person without a reason). `null` = every axis was tried
+ * — the host must close; more force is not a fourth axis.
+ */
+export function pickReframe(alreadyTried: readonly ReframeAxis[]): ReframeAxis | null {
+  return REFRAME_AXES.find((axis) => !alreadyTried.includes(axis)) ?? null;
+}
+
+/**
+ * Fold a host-language topic into a stable key. Two wordings of the same
+ * question must collide; a place or a person must never sneak in.
+ */
+export function normalizeTopic(raw: string): string {
+  return raw
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+}
+
+export function sameThread(a: ThreadId, b: ThreadId): boolean {
+  return a.subjectId === b.subjectId && a.topic === b.topic;
+}
+
+export function threadKey(id: ThreadId): string {
+  return `${id.subjectId}::${id.topic}`;
+}
+
+/** Host row → kernel state. Statuses match 1:1 with `THREAD_STATUSES`. */
+export function threadState(input: {
+  status: ThreadStatus;
+  nudgesSinceReply: number;
+  framesTried: number;
+}): ThreadState {
+  return {
+    status: input.status,
+    nudgesSinceReply: input.nudgesSinceReply,
+    framesTried: input.framesTried,
+  };
+}
 
 export interface ThreadPolicy {
   /** Nudges allowed on the SAME frame before a reframe is forced. */
