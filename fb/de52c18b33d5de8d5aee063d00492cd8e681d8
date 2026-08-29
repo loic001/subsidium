@@ -1,0 +1,40 @@
+src/index.ts
+  s_80acb328a73c8b::t_ff043a1b632ee6 16
+ui/EscalationBriefView.tsx
+  s_80acb328a73c8b::t_2d124b26da990b 1-109
+ui/TierBands.tsx
+  s_80acb328a73c8b::t_90b3237413a828 1-53
+package.json
+  s_80acb328a73c8b::t_3daccf5b98fa97 40,42
+  s_80acb328a73c8b::t_37bc1a9b7ed660 7-11,14-19
+__tests__/dashboard.test.ts
+  s_80acb328a73c8b::t_18164ea311c589 1-59
+ui/index.ts
+  s_80acb328a73c8b::t_7b9b9b7fac16e7 1-12
+src/dashboard.ts
+  s_80acb328a73c8b::t_e90dedce5020a3 1-141
+ui/styles.css
+  s_80acb328a73c8b::t_f697c95589fcbe 1-189
+tsconfig.json
+  s_80acb328a73c8b::t_cc3f1166653e10 9-10,12
+README.md
+  s_80acb328a73c8b::t_2e959a480ce4e6 162-180
+__tests__/surface.test.ts
+  s_80acb328a73c8b::t_469378d0c17202 33-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "fbde52c18b33d5de8d5aee063d00492cd8e681d8",
+  "prompts": {},
+  "sessions": {
+    "s_80acb328a73c8b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "ef051c58-75b7-48a1-8161-00a0ac4b13fd",
+        "model": "grok-4.6"
+      },
+      "human_author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    }
+  }
+}
