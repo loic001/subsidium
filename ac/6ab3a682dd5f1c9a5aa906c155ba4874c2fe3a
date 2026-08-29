@@ -1,0 +1,24 @@
+src/types.ts
+  s_80acb328a73c8b::t_f1f6cae4fc828b 186-192
+src/thread.ts
+  s_80acb328a73c8b::t_28dd049dc061ad 18-66
+__tests__/thread.test.ts
+  s_80acb328a73c8b::t_a64244c13078ec 7-15
+  s_80acb328a73c8b::t_60bd841c5bfade 115-161
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "ac6ab3a682dd5f1c9a5aa906c155ba4874c2fe3a",
+  "prompts": {},
+  "sessions": {
+    "s_80acb328a73c8b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "ef051c58-75b7-48a1-8161-00a0ac4b13fd",
+        "model": "grok-4.6"
+      },
+      "human_author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    }
+  }
+}
