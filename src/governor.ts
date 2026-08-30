@@ -114,6 +114,30 @@ export class TierGovernor {
     return { ...(this.records.get(kind) ?? EMPTY) };
   }
 
+  /**
+   * Persist / restore. A host that cannot dump the ledger cannot run the
+   * governor in production — it would reset to "no track" on every boot
+   * and never promote. Other entrepreneurs need this; in-memory only is a turkey.
+   */
+  dump(): Record<string, KindRecord> {
+    const out: Record<string, KindRecord> = {};
+    for (const [kind, rec] of this.records) out[kind] = { ...rec };
+    return out;
+  }
+
+  hydrate(records: Record<string, KindRecord>): void {
+    this.records.clear();
+    for (const [kind, rec] of Object.entries(records)) {
+      this.records.set(kind, {
+        executions: rec.executions ?? 0,
+        failures: rec.failures ?? 0,
+        contestsUp: rec.contestsUp ?? 0,
+        contestsDown: rec.contestsDown ?? 0,
+        demotedUntilReset: rec.demotedUntilReset ?? false,
+      });
+    }
+  }
+
   private get(kind: string): KindRecord {
     let r = this.records.get(kind);
     if (!r) {

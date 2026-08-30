@@ -125,6 +125,29 @@ describe('bords et hygiène', () => {
   });
 });
 
+describe('dump / hydrate — a host must be able to persist the ledger', () => {
+  it('round-trips promotion and a sticky demotion', () => {
+    const g = new TierGovernor(opts);
+    for (let i = 0; i < 10; i++) g.record('send_reminder', 'success');
+    g.contestUp('send_reminder');
+    const dumped = g.dump();
+    dumped.send_reminder.executions = 999;
+    expect(g.snapshot('send_reminder').executions).toBe(10);
+
+    const restored = new TierGovernor(opts);
+    restored.hydrate(g.dump());
+    expect(restored.effectiveTier('send_reminder', 3)).toBe(3);
+    expect(restored.snapshot('send_reminder')).toEqual(g.snapshot('send_reminder'));
+  });
+
+  it('hydrate of {} is a clean slate', () => {
+    const g = new TierGovernor(opts);
+    g.record('k', 'success');
+    g.hydrate({});
+    expect(g.snapshot('k').executions).toBe(0);
+  });
+});
+
 describe('the yellow card', () => {
   it('contesting DOWN never changes the tier by itself — it is evidence, not a lever', () => {
     const g = new TierGovernor(opts);
