@@ -1,0 +1,71 @@
+README.md
+  s_80acb328a73c8b::t_fca8a81ce1a279 139-170
+  s_80acb328a73c8b::t_d4a18a70a15f38 184-185
+  s_80acb328a73c8b::t_4f890f750181c9 53-55
+examples/mastra-gate.ts
+  s_80acb328a73c8b::t_53e5bbc17c7a4e 1-115,121-129,131-136,138-141,143-182,186,188,190-204
+  s_80acb328a73c8b::t_c08d61f8706606 116-120,130,137,142
+  s_80acb328a73c8b::t_6281bc9126458c 183-185,187,189
+__tests__/governor.test.ts
+  s_80acb328a73c8b::t_8bd6162d585b90 152-153
+  s_80acb328a73c8b::t_52dd56673e85ab 149-151,154-161
+src/measure.ts
+  s_80acb328a73c8b::t_180ae431517262 1-125
+__tests__/measure.test.ts
+  s_80acb328a73c8b::t_b34284b409e3d3 1-129
+src/sop.ts
+  s_80acb328a73c8b::t_6c9b88540c8ee4 1-56,60,62-66,70-125
+  s_80acb328a73c8b::t_e7b0f404e10f6c 57-59,61,67-69
+src/index.ts
+  s_80acb328a73c8b::t_64cda48a3ad5d8 15-16
+__tests__/surface.test.ts
+  s_80acb328a73c8b::t_4a0c7c6fcb6b37 37-44
+__tests__/sop.test.ts
+  s_80acb328a73c8b::t_ba27489a526182 1-130
+coverage/attention.ts.html
+  s_80acb328a73c8b::t_9ab7af87f069c3 256
+coverage/clover.xml
+  s_80acb328a73c8b::t_7995e9b2e80d92 2-5,37-143,163-164,177-189,192-196,198-199,205,213-241,243-244,252-254,256-309,511-636,638,652-680,682
+coverage/coverage-final.json
+  s_80acb328a73c8b::t_52d2b3584c5794 1-11
+coverage/dashboard.ts.html
+  s_80acb328a73c8b::t_661d5d17fb02d7 1-547
+coverage/escalation.ts.html
+  s_80acb328a73c8b::t_2a146ba1d70c27 181
+coverage/governor.ts.html
+  s_80acb328a73c8b::t_5f63e25afed133 28,35,42,49,191-215,275,277,279-283,286-290,293,302-306,308,310,318,327-363,479-502,520
+coverage/index.html
+  s_80acb328a73c8b::t_ab537e19388eec 28,35,42,49,96-110,132,134,136,138,147,153-168,186-200,207,209,211,213,254
+coverage/index.ts.html
+  s_80acb328a73c8b::t_dbe7567dac8a72 28,49,81-84,99-101,116-117,119,127
+coverage/measure.ts.html
+  s_80acb328a73c8b::t_4d3b978246aa09 1-460
+coverage/sim.ts.html
+  s_80acb328a73c8b::t_5a6d938259e420 1255
+coverage/sop.ts.html
+  s_80acb328a73c8b::t_4006f0e1dffa24 1-460
+coverage/thread.ts.html
+  s_80acb328a73c8b::t_e026eeb9fce890 28,35,42,49,170-218,240-287,387-435,529
+coverage/tier.ts.html
+  s_80acb328a73c8b::t_e6e71c0582c16a 215,217-222,224-228,230-233,235-238,240-243,245-246,248,258-259,364
+coverage/types.ts.html
+  s_80acb328a73c8b::t_13c297b6ec334f 272-279,485-491,677-683,712
+package.json
+  s_80acb328a73c8b::t_333da0a95f0efb 18-20,42,48-49
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "8ccf4b85e4d59c0129ebd9997cb47f66f5cafe68",
+  "prompts": {},
+  "sessions": {
+    "s_80acb328a73c8b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "ef051c58-75b7-48a1-8161-00a0ac4b13fd",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    }
+  }
+}
