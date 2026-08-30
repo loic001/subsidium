@@ -173,7 +173,8 @@ import { deriveTier, whyEscalated, bandByTier, countByTier } from 'subsidium'
 ```
 
 - **`TierPyramid`** — the six tiers, always visible (T5 on top, T0 at the
-  bottom). Empty rungs stay so the shape does not collapse.
+  bottom). Empty rungs stay so the shape does not collapse. Pass `onSelect`
+  and the rungs become the filter (click again to clear).
 - **`TierBands`** — the inbox, grouped from T0 (autonomous) to T5 (human).
   Empty bands are omitted.
 - **`TierChip`** — the T0–T5 pastille on a card.
