@@ -33,6 +33,7 @@ describe('the package surface', () => {
       'whyEscalated',
       'tierMeta',
       'bandByTier',
+      'countByTier',
     ];
     for (const name of expected) {
       expect(subsidium, name).toHaveProperty(name);

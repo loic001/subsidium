@@ -168,15 +168,19 @@ business. Drop the bricks in your own app:
 
 ```ts
 import 'subsidium/ui/styles.css'
-import { EscalationBriefView, TierBands } from 'subsidium/ui'
-import { deriveTier, whyEscalated, bandByTier } from 'subsidium'
+import { EscalationBriefView, TierBands, TierChip, TierPyramid } from 'subsidium/ui'
+import { deriveTier, whyEscalated, bandByTier, countByTier } from 'subsidium'
 ```
 
+- **`TierPyramid`** — the six tiers, always visible (T5 on top, T0 at the
+  bottom). Empty rungs stay so the shape does not collapse.
 - **`TierBands`** — the inbox, grouped from T0 (autonomous) to T5 (human).
+  Empty bands are omitted.
+- **`TierChip`** — the T0–T5 pastille on a card.
 - **`EscalationBriefView`** — the read-only page a teammate opens from a
   capability-token URL: the problem, why it rose the pyramid, the timeline.
-- **`whyEscalated` / `bandByTier` / `tierMeta`** live in the kernel (pure,
-  100% tested). React is a peer dependency of `./ui` only.
+- **`whyEscalated` / `bandByTier` / `countByTier` / `tierMeta`** live in
+  the kernel (pure, 100% tested). React is a peer dependency of `./ui` only.
 
 ## Status — read before using
 

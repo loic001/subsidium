@@ -1,8 +1,14 @@
 /**
  * subsidium/ui — host-overridable tokens. Defaults match a dark ops surface.
  * Import once: `import 'subsidium/ui/styles.css'`
+ *
+ * Tokens live on every brick (not only `.sub-root`) so a host can drop
+ * `TierBands` / `TierPyramid` / `TierChip` into its own chrome.
  */
-.sub-root {
+.sub-root,
+.sub-pyramid,
+.sub-band,
+.sub-chip {
   --sub-text: oklch(0.93 0.004 350);
   --sub-mute: oklch(0.665 0.01 350);
   --sub-faint: oklch(0.5 0.008 350);
@@ -12,6 +18,9 @@
   --sub-line: oklch(0.245 0.01 350);
   --sub-font: ui-sans-serif, system-ui, sans-serif;
   --sub-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+.sub-root {
   color: var(--sub-text);
   font-family: var(--sub-font);
   font-size: 15px;
@@ -186,4 +195,66 @@
 .sub-chip {
   font-family: var(--sub-mono);
   font-size: 12px;
+}
+
+/* Overview — T5 at the top (narrow), T0 at the bottom (wide). Empty
+   rungs stay so the shape does not collapse when a tier is vacant. */
+.sub-pyramid {
+  margin: 1.5rem 0 0;
+  font-family: var(--sub-font);
+}
+
+.sub-pyramid-stack {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.sub-pyramid-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  min-height: 1.7rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  background: color-mix(in oklch, var(--sub-accent) 12%, var(--sub-panel));
+  border: 1px solid color-mix(in oklch, var(--sub-accent) 22%, transparent);
+  color: var(--sub-text);
+  font-size: 12px;
+}
+
+.sub-pyramid-row.is-empty {
+  background: transparent;
+  border-style: dashed;
+  border-color: color-mix(in oklch, var(--sub-faint) 35%, transparent);
+  color: var(--sub-faint);
+}
+
+.sub-pyramid-code {
+  font-family: var(--sub-mono);
+  font-weight: 600;
+  min-width: 1.6em;
+}
+
+.sub-pyramid-n {
+  font-family: var(--sub-mono);
+  font-weight: 600;
+  min-width: 1.4em;
+  text-align: right;
+}
+
+.sub-pyramid-why {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--sub-mute);
+}
+
+.sub-pyramid-row.is-empty .sub-pyramid-why {
+  color: var(--sub-faint);
 }

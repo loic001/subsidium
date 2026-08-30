@@ -139,3 +139,16 @@ export function bandByTier<T>(
     .sort(([a], [b]) => a - b)
     .map(([tier, grouped]) => ({ tier, items: grouped }));
 }
+
+/**
+ * All six tiers, always — empty included. The overview pyramid must not
+ * vanish just because today's queue skipped T0.
+ */
+export function countByTier<T>(
+  items: readonly T[],
+  tierOf: (item: T) => number,
+): Array<{ tier: number; count: number }> {
+  const counts = [0, 0, 0, 0, 0, 0];
+  for (const item of items) counts[asTier(tierOf(item))]++;
+  return counts.map((count, tier) => ({ tier, count }));
+}

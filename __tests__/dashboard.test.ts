@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { bandByTier, tierMeta, whyEscalated } from '../src/dashboard';
+import { bandByTier, countByTier, tierMeta, whyEscalated } from '../src/dashboard';
 
 describe('tierMeta', () => {
   it('labels every tier in both languages', () => {
@@ -55,5 +55,24 @@ describe('bandByTier', () => {
   it('clamps unknown tiers into the pyramid', () => {
     const bands = bandByTier([{ t: 9 }], (x) => x.t);
     expect(bands).toEqual([{ tier: 5, items: [{ t: 9 }] }]);
+  });
+});
+
+describe('countByTier', () => {
+  it('returns all six tiers, empty ones included', () => {
+    const rows = countByTier([{ t: 2 }, { t: 2 }, { t: 3 }], (x) => x.t);
+    expect(rows).toEqual([
+      { tier: 0, count: 0 },
+      { tier: 1, count: 0 },
+      { tier: 2, count: 2 },
+      { tier: 3, count: 1 },
+      { tier: 4, count: 0 },
+      { tier: 5, count: 0 },
+    ]);
+  });
+
+  it('an empty queue is still a pyramid of zeroes', () => {
+    expect(countByTier([], () => 0).every((r) => r.count === 0)).toBe(true);
+    expect(countByTier([], () => 0)).toHaveLength(6);
   });
 });

@@ -6,7 +6,8 @@
  * an escalation brief, and the pyramid is on the screen.
  *
  *   import 'subsidium/ui/styles.css'
- *   import { EscalationBriefView, TierBands } from 'subsidium/ui'
+ *   import { EscalationBriefView, TierBands, TierPyramid } from 'subsidium/ui'
  */
 export { EscalationBriefView } from './EscalationBriefView';
 export { TierBands, TierChip } from './TierBands';
+export { TierPyramid } from './TierPyramid';
