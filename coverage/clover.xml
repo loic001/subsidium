@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1788117465806" clover="3.2.0">
-  <project timestamp="1788117465806" name="All files">
+<coverage generated="1788119085091" clover="3.2.0">
+  <project timestamp="1788119085091" name="All files">
     <metrics statements="655" coveredstatements="655" conditionals="255" coveredconditionals="255" methods="46" coveredmethods="46" elements="956" coveredelements="956" complexity="0" loc="655" ncloc="655" packages="1" files="11" classes="11"/>
     <file name="attention.ts" path="/Users/lolo/projects/subsidium/src/attention.ts">
       <metrics statements="29" coveredstatements="29" conditionals="9" coveredconditionals="9" methods="3" coveredmethods="3"/>
