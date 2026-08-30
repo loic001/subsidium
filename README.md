@@ -50,7 +50,9 @@ incidents than trusting the agent with everything.*
 
 Wiring it around any agent is ~30 lines
 ([`examples/gate-an-agent.ts`](examples/gate-an-agent.ts), runnable with
-`npx tsx`):
+`npx tsx`; the same door around **real Mastra tools + agent** is
+[`examples/mastra-gate.ts`](examples/mastra-gate.ts) — the gate *is* the
+tool's `execute`, and the agent never knows it is being governed):
 
 ```ts
 import { deriveTier, tierInput, TierGovernor, TIER_MODE, admit } from 'subsidium'
@@ -134,6 +136,38 @@ on reading instead of deciding.
 minutes are spent, escalations queue; they do not spill. An overflowing
 inbox teaches its owner to ignore all of it.
 
+## SOP & measure — optimizing the company without lying to yourself
+
+"Optimize the company" decomposes into **procedures** and the **numbers**
+that judge them. Both are primitives here, because both are where the
+lying happens:
+
+**A SOP is a first-class citizen** ([`src/sop.ts`](src/sop.ts)) — a named,
+versioned chain of actions with three laws:
+
+- **Weakest link**: `deriveSopTier` gives the chain the tier of its most
+  dangerous step — never an average, never a separate declaration. A
+  procedure with one merchant-visible irreversible step *is* T3, whatever
+  its name says, and the verdict names the step that forced it.
+- **Approval follows verification**: `sopTransition` is a one-way ladder
+  (draft → verified → approved) and any *edit* falls back to draft — a
+  human approved a text they read; if the text changed, that approval is
+  void. Only `approved` is runnable (`sopRunnable`).
+- **Trust belongs to the version**: `sopGovernorKey` keys the earned
+  autonomy on `(id, version)`. Edit the procedure → new version → the
+  track record restarts at zero. Otherwise a trusted name inherits trust
+  its new body never earned — the same door Goodhart uses.
+
+**A measurement carries its own honesty** ([`src/measure.ts`](src/measure.ts)) —
+every `reading` pins the **verbatim definition** and the **sample size**;
+`judge(spec, treated, baseline)` is the only way to claim success, and it
+answers `not_comparable` the moment the definition differs between
+readings (any improvement obtained by changing what is counted is a
+regression), `too_early` below the n bar, and `improved` / `regressed` /
+`no_effect` only past both. It is deliberately *not* a significance test —
+no p-value theater, just the three questions that catch most lies:
+compared to what? on how many? counted how?
+
 ## Vocabulary
 
 | Concept | One line |
@@ -147,6 +181,8 @@ inbox teaches its owner to ignore all of it.
 | `TierGovernor` | learned trust per action kind: slow earned promotion, instant sticky demotion |
 | `EscalationSignal` | the compressed failure that ascends |
 | `AttentionBudget` | minutes per day, minutes per item — the human tier's ledger |
+| `SopSpec` | a versioned chain of actions: weakest-link tier, approval voided by edits, trust per version |
+| `MetricSpec` / `judge` | a definition-pinned metric and the only honest way to claim it moved |
 
 ## Tested like it decides someone's day — because it does
 

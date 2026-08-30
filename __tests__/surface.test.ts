@@ -34,6 +34,14 @@ describe('the package surface', () => {
       'tierMeta',
       'bandByTier',
       'countByTier',
+      'deriveSopTier',
+      'sopGovernorKey',
+      'sopTransition',
+      'sopRunnable',
+      'SOP_STATUSES',
+      'reading',
+      'judge',
+      'DEFAULT_JUDGE_OPTIONS',
     ];
     for (const name of expected) {
       expect(subsidium, name).toHaveProperty(name);

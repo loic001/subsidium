@@ -12,5 +12,7 @@ export * from './governor';
 export * from './thread';
 export * from './attention';
 export * from './escalation';
+export * from './sop';
+export * from './measure';
 export * from './sim';
 export * from './dashboard';

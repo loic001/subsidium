@@ -146,6 +146,19 @@ describe('dump / hydrate — a host must be able to persist the ledger', () => {
     g.hydrate({});
     expect(g.snapshot('k').executions).toBe(0);
   });
+
+  it('hydrate tolerates a partial row (older dump, missing fields default to 0)', () => {
+    const g = new TierGovernor(opts);
+    g.hydrate({ old_kind: { executions: 5 } as never, empty_kind: {} as never });
+    expect(g.snapshot('empty_kind').executions).toBe(0);
+    expect(g.snapshot('old_kind')).toEqual({
+      executions: 5,
+      failures: 0,
+      contestsUp: 0,
+      contestsDown: 0,
+      demotedUntilReset: false,
+    });
+  });
 });
 
 describe('the yellow card', () => {
