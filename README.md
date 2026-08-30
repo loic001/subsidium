@@ -24,6 +24,15 @@ tiers. Subsidium adds the one thing an LLM cascade does not model: a tier
 whose budget is a person's **attention**, and whose sampling has a
 **social cost**.
 
+## Install
+
+```bash
+npm install subsidium
+```
+
+The kernel has **zero runtime dependencies**. The dashboard bricks
+(`subsidium/ui`) need `react >= 18` as an optional peer.
+
 ## Your agent is the worker. This is the door.
 
 Subsidium is **not another agent framework** — it is the layer the agent
