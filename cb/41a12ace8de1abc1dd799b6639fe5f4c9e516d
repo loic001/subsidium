@@ -1,0 +1,47 @@
+coverage/attention.ts.html
+  s_80acb328a73c8b::t_d8347bf0c0b47b 256
+coverage/clover.xml
+  s_80acb328a73c8b::t_22a5b2ae2e14c2 2-3
+coverage/coverage-final.json
+  s_80acb328a73c8b::t_e65b48e8fc84fa 10
+coverage/dashboard.ts.html
+  s_80acb328a73c8b::t_92ceb783ba842f 535
+coverage/escalation.ts.html
+  s_80acb328a73c8b::t_8e8df431819027 181
+coverage/governor.ts.html
+  s_80acb328a73c8b::t_959eb1f6767958 520
+coverage/index.html
+  s_80acb328a73c8b::t_1d9fdd8b8fb90f 254
+coverage/index.ts.html
+  s_80acb328a73c8b::t_752ca1321063b9 127
+coverage/measure.ts.html
+  s_80acb328a73c8b::t_e872ab563be606 448
+coverage/sim.ts.html
+  s_80acb328a73c8b::t_ee1f711369dca9 1255
+coverage/sop.ts.html
+  s_80acb328a73c8b::t_53eefbd2c60cbc 448
+coverage/thread.ts.html
+  s_80acb328a73c8b::t_f50b371c679e07 529
+coverage/tier.ts.html
+  s_80acb328a73c8b::t_1411cf5def6334 364
+coverage/types.ts.html
+  s_80acb328a73c8b::t_6683b68380f9f0 712
+package.json
+  s_80acb328a73c8b::t_b29512f86f43a8 45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "cb41a12ace8de1abc1dd799b6639fe5f4c9e516d",
+  "prompts": {},
+  "sessions": {
+    "s_80acb328a73c8b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "ef051c58-75b7-48a1-8161-00a0ac4b13fd",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    }
+  }
+}
