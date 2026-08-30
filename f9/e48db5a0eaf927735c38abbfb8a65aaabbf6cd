@@ -1,0 +1,35 @@
+README.md
+  s_80acb328a73c8b::t_38fbdb7ebdacf1 27-35
+tsup.config.ts
+  s_80acb328a73c8b::t_59042301c81b83 1-12
+package.json
+  s_80acb328a73c8b::t_edfe1ff5bc1bbf 6-7,9-16,19-23,25
+  s_80acb328a73c8b::t_cf70d045ec2774 51-53
+  s_c2ff5e0077f422::t_6fdc5a82b295ec 60
+.gitignore
+  s_80acb328a73c8b::t_972571c8ff751d 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "f9e48db5a0eaf927735c38abbfb8a65aaabbf6cd",
+  "prompts": {},
+  "sessions": {
+    "s_80acb328a73c8b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "ef051c58-75b7-48a1-8161-00a0ac4b13fd",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    },
+    "s_c2ff5e0077f422": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "e377c98e-3592-44e0-b09e-9a77b47d5d07",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    }
+  }
+}
