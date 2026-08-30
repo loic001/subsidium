@@ -24,6 +24,61 @@ tiers. Subsidium adds the one thing an LLM cascade does not model: a tier
 whose budget is a person's **attention**, and whose sampling has a
 **social cost**.
 
+## Your agent is the worker. This is the door.
+
+Subsidium is **not another agent framework** — it is the layer the agent
+frameworks are missing. Hermes, OpenClaw, Mastra, a cron script, an intern:
+all of them are *workers*. None of them answers the questions that decide
+whether you can trust one with your company:
+
+- **What may run on its own, and who says so?** Not a config flag, not the
+  model's confidence — a tier *derived* from reversibility, external
+  visibility, and problem domain. Same inputs, same tier, on any machine.
+- **How does autonomy grow?** It is earned per action kind: 20 clean runs
+  under an error budget buy exactly one tier of promotion. One human
+  contest — "this needed me" — snaps it back instantly, and it sticks.
+- **What does the human cost?** Minutes, budgeted. When the founder's 60
+  minutes are spent, escalations queue; they never spill into an inbox
+  nobody reads.
+
+The performance claim is measured, not vibed (full table below,
+`npm run sim`, seeded and pinned by tests): the pyramid + governor policy
+unblocks **4.08 subjects per human-hour vs 1.5 for send-everything-to-
+approval**, at 6 incidents vs 88 for full autonomy. That is the honest
+pitch: *more throughput than asking permission for everything, ~14× fewer
+incidents than trusting the agent with everything.*
+
+Wiring it around any agent is ~30 lines
+([`examples/gate-an-agent.ts`](examples/gate-an-agent.ts), runnable with
+`npx tsx`):
+
+```ts
+import { deriveTier, tierInput, TierGovernor, TIER_MODE, admit } from 'subsidium'
+
+const governor = new TierGovernor() // persist with dump()/hydrate()
+
+async function agentWantsTo(action: ActionSpec<Ctx>, ctx: Ctx) {
+  const derived = deriveTier(tierInput(action, action.channel))
+  const tier = governor.effectiveTier(action.kind, derived.tier)
+  switch (TIER_MODE[tier]) {
+    case 'auto_silent':
+    case 'auto_notify': {
+      if (!(await action.verify(ctx)).ok) return // the oracle, not vibes
+      const run = await action.execute(ctx)
+      return governor.record(action.kind, run.ok ? 'success' : 'failure')
+    }
+    case 'veto':
+      return openVetoWindow(action, ctx) // fires unless a human objects
+    default:
+      return queueForHuman(action, ctx, derived.reasons) // attention-budgeted
+  }
+}
+```
+
+The agent proposes; the door decides; the ledger remembers. Swap the agent
+for a better one next year — the governance, the track record, and the
+inbox UI (`subsidium/ui`) stay.
+
 ## The pyramid
 
 The discriminator between tiers is never "how much the AI does". It is
