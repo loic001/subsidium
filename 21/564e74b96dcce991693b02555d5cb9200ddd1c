@@ -1,0 +1,33 @@
+README.md
+  s_80acb328a73c8b::t_f933829222465d 171-172,175-176,178-179,182-183
+__tests__/surface.test.ts
+  s_80acb328a73c8b::t_3fe9cab49767d0 36
+ui/index.ts
+  s_80acb328a73c8b::t_9fa25c92dc3202 9,13
+ui/TierPyramid.tsx
+  s_80acb328a73c8b::t_795f38c77fd1b6 1-42
+__tests__/dashboard.test.ts
+  s_80acb328a73c8b::t_1bcdb8e6168f85 2
+  s_80acb328a73c8b::t_2f57fddfcfca1c 60-78
+ui/styles.css
+  s_80acb328a73c8b::t_096ef0245157d2 4-6,8-11,21-23
+  s_80acb328a73c8b::t_54088ba34a458d 199-260
+src/dashboard.ts
+  s_80acb328a73c8b::t_6504a76a8afbdd 142-154
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "21564e74b96dcce991693b02555d5cb9200ddd1c",
+  "prompts": {},
+  "sessions": {
+    "s_80acb328a73c8b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "ef051c58-75b7-48a1-8161-00a0ac4b13fd",
+        "model": "grok-4.6"
+      },
+      "human_author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    }
+  }
+}
