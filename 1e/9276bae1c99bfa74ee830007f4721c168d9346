@@ -1,0 +1,60 @@
+__tests__/sim.test.ts
+  s_80acb328a73c8b::t_1f36360e95263c 210-273,282-285,288-289
+  s_80acb328a73c8b::t_11ee223b267a84 16-17,22
+  s_80acb328a73c8b::t_67d5b5a3e373a3 274-281,286-287
+src/sim.ts
+  s_80acb328a73c8b::t_2e3c3d0ae7a6a6 255-418
+README.md
+  s_80acb328a73c8b::t_52c480a89ef5bf 257-264,270-277
+  s_80acb328a73c8b::t_bda1939057caf2 160-165
+  s_80acb328a73c8b::t_07d6af0cc919ec 278
+bench/report.ts
+  s_80acb328a73c8b::t_6eaa997a106743 55-68
+  s_80acb328a73c8b::t_61dca028b2cdf3 10-11,16
+__tests__/surface.test.ts
+  s_80acb328a73c8b::t_a30da33022b53f 31,33,35
+coverage/attention.ts.html
+  s_80acb328a73c8b::t_cb0b9ab59e9070 256
+coverage/clover.xml
+  s_80acb328a73c8b::t_2e0ef477cf6683 2-4,177-189,192-205,213,216,221,233-241,310,315-322,324-352,355-602,745-757,761-773
+coverage/coverage-final.json
+  s_80acb328a73c8b::t_874216c0bc90c0 4,7,10
+coverage/dashboard.ts.html
+  s_80acb328a73c8b::t_3a1aa5467f46b0 535
+coverage/escalation.ts.html
+  s_80acb328a73c8b::t_42989bb692196f 181
+coverage/governor.ts.html
+  s_80acb328a73c8b::t_2822143705cd3e 275,277,279-283,286-290,293,302-308,310-315,318,327,336,342,355-363,520
+coverage/index.html
+  s_80acb328a73c8b::t_fc585fac9a60ba 28,35,42,49,177,179,181,183,254
+coverage/index.ts.html
+  s_80acb328a73c8b::t_bad04b923d7e18 127
+coverage/measure.ts.html
+  s_80acb328a73c8b::t_123eae797b8d4e 448
+coverage/sim.ts.html
+  s_80acb328a73c8b::t_9c4209ce372249 28,35,42,49,460-624,666-673,760-794,799-825,828,833-847,850-862,864-1040,1142-1161,1436-1599,1747
+coverage/sop.ts.html
+  s_80acb328a73c8b::t_904b1b29f3227e 448
+coverage/thread.ts.html
+  s_80acb328a73c8b::t_fd43a38ed20614 529
+coverage/tier.ts.html
+  s_80acb328a73c8b::t_30b41b51c8d6db 215-230,235-238,240-243,245-246,248,258-259,364
+coverage/types.ts.html
+  s_80acb328a73c8b::t_5e681f1a74f058 712
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "1e9276bae1c99bfa74ee830007f4721c168d9346",
+  "prompts": {},
+  "sessions": {
+    "s_80acb328a73c8b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "ef051c58-75b7-48a1-8161-00a0ac4b13fd",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    }
+  }
+}
