@@ -157,7 +157,12 @@ versioned chain of actions with three laws:
 - **Weakest link**: `deriveSopTier` gives the chain the tier of its most
   dangerous step — never an average, never a separate declaration. A
   procedure with one merchant-visible irreversible step *is* T3, whatever
-  its name says, and the verdict names the step that forced it.
+  its name says, and the verdict names the step that forced it. The
+  alternative is priced in the closed world (`npm run sim`, 5 seeds):
+  gating chains at the *average* of their steps fires **240 dangerous
+  chains with nobody in the loop** and costs **6.4× the incidents**
+  (52.8 vs 8.2) — while looking *faster* on every dashboard metric. That
+  last part is the trap, and it is pinned as such in the tests.
 - **Approval follows verification**: `sopTransition` is a one-way ladder
   (draft → verified → approved) and any *edit* falls back to draft — a
   human approved a text they read; if the text changed, that approval is
@@ -249,10 +254,27 @@ result that surprised us and is pinned as such in the tests: it lands *at
 or below* the never-promoting static pyramid, because vetoes and
 rejections feed the failure record too.
 
+SOP chains (three procedures, 9 runs/day): the weakest-link tier vs the
+tempting average-of-steps —
+
+| chain policy | runs fired | dangerous fired on auto | incidents |
+|---|---|---|---|
+| `weakest_link` (`deriveSopTier`) | 403.2 | **0** (structural) | 8.2 |
+| `average_tier` | 464.6 | 240 | 52.8 |
+
 Outreach, 500 counterparts with a hidden preferred channel and a patience
 threshold: the thread law gets **3× the replies of the naive hammer with
 half the messages and structurally zero social damage** (298 replies /
 1186 messages / 0 annoyed, vs 105 / 2475 / 1975).
+
+The orderings are not a lucky constant: a pinned robustness grid re-runs
+the world at 30/60/120 human-minutes per day × human accuracy 0.8/0.9/0.97
+and the two headline claims (throughput per attention-hour beats
+all-consent; incidents stay far below all-auto) hold in **every cell**.
+One honest exception is pinned too: at a very high promotion bar
+(`minTrack` 40 on a 60-day horizon) the governor's throughput lands 0.7%
+*below* the static pyramid — trust that cannot be earned within the
+horizon does not pay. The tests state it, so nobody oversells the governor.
 
 What the closed world proves: the orderings, under stated assumptions.
 What it cannot prove: the assumptions. Production keeps the final word —

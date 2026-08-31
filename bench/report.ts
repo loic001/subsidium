@@ -7,10 +7,13 @@
  */
 import {
   averageGating,
+  averageSop,
+  defaultSopWorld,
   defaultWorld,
   simulateOutreach,
   type GatingPolicy,
   type OutreachConfig,
+  type SopPolicy,
 } from '../src/sim';
 
 const SEEDS = [11, 42, 137, 1001, 9090];
@@ -48,6 +51,20 @@ for (const [label, cfg] of [
   const r = averageGating(policy, cfg, SEEDS);
   console.log(`  ${label.padEnd(28)}${pad(r.badFired, 10)}${pad(r.incidents, 10)}`);
 }
+
+console.log('\nSOP CHAINS — weakest-link tier (deriveSopTier) vs average-of-steps (the tempting bug)');
+const sopWorld = defaultSopWorld();
+console.log(
+  `  ${'policy'.padEnd(18)}${pad('runs fired', 11)}${pad('dangerous-auto', 15)}${pad('incidents', 10)}${pad('stopped', 9)}${pad('h-minutes', 10)}`,
+);
+for (const policy of ['weakest_link', 'average_tier'] as SopPolicy[]) {
+  const r = averageSop(policy, sopWorld, SEEDS);
+  console.log(
+    `  ${policy.padEnd(18)}${pad(r.runsFired, 11)}${pad(r.dangerousAutoFired, 15)}${pad(r.incidents, 10)}${pad(r.stopped, 9)}${pad(r.humanMinutes, 10)}`,
+  );
+}
+console.log('  dangerous-auto = chains containing an irreversible+external step fired with NOBODY in the loop.');
+console.log('  Averaging looks faster on every dashboard metric — the incidents are what the dashboard does not show.');
 
 console.log('\nOUTREACH — 500 counterparts, hidden preferred channel, patience threshold 1');
 const outreach: OutreachConfig = {

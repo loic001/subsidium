@@ -13,10 +13,13 @@
 import { describe, expect, it } from 'vitest';
 import {
   averageGating,
+  averageSop,
+  defaultSopWorld,
   defaultWorld,
   lcg,
   simulateGating,
   simulateOutreach,
+  simulateSopGating,
   type GatingConfig,
   type OutreachConfig,
 } from '../src/sim';
@@ -202,5 +205,85 @@ describe('conservation laws — nothing is created or lost', () => {
   it('every outreach counterpart ends replied or closed (law) — none dangle', () => {
     const law = simulateOutreach('law', OUTREACH);
     expect(law.replies + law.closed).toBe(OUTREACH.counterparts);
+  });
+});
+
+describe('the weakest-link law, priced — SOP chains', () => {
+  const sopWorld = defaultSopWorld();
+
+  it('is exactly reproducible', () => {
+    const a = simulateSopGating('average_tier', { ...sopWorld, seed: 42 });
+    expect(a).toEqual(simulateSopGating('average_tier', { ...sopWorld, seed: 42 }));
+  });
+
+  it('STRUCTURAL: under weakest_link, a dangerous chain NEVER fires on auto — any seed', () => {
+    for (const seed of [...SEEDS, 7, 77, 777]) {
+      const r = simulateSopGating('weakest_link', { ...sopWorld, seed });
+      expect(r.dangerousAutoFired, `seed ${seed}`).toBe(0);
+    }
+  });
+
+  it('average_tier is the whole pathology: T0+T1+T3 averages to "auto" and the merchant email fires unseen', () => {
+    const avg = averageSop('average_tier', sopWorld, SEEDS);
+    const weak = averageSop('weakest_link', sopWorld, SEEDS);
+    // activate_merchant alone is 4/day × 60 days routed straight to auto.
+    expect(avg.dangerousAutoFired).toBeGreaterThan(200);
+    expect(avg.incidents).toBeGreaterThan(weak.incidents * 3);
+  });
+
+  it('the tradeoff is stated honestly: averaging LOOKS faster — that is exactly the trap', () => {
+    const avg = averageSop('average_tier', sopWorld, SEEDS);
+    const weak = averageSop('weakest_link', sopWorld, SEEDS);
+    // More runs fired, fewer human minutes: every metric a dashboard loves…
+    expect(avg.runsFired).toBeGreaterThanOrEqual(weak.runsFired);
+    expect(avg.humanMinutes).toBeLessThanOrEqual(weak.humanMinutes);
+    // …and the incidents above are what those metrics do not show.
+  });
+
+  it('when max == average (close_dead_file: T1+T2), both policies route identically', () => {
+    const oneSop = { ...sopWorld, sops: sopWorld.sops.filter((s) => s.kind === 'close_dead_file') };
+    const a = simulateSopGating('average_tier', { ...oneSop, seed: 42 });
+    const w = simulateSopGating('weakest_link', { ...oneSop, seed: 42 });
+    expect(a).toEqual({ ...w, policy: 'average_tier' });
+  });
+});
+
+describe('robustness — the orderings are not a lucky constant', () => {
+  // The README quotes one world (60 min/day, accuracy 0.9). This grid varies
+  // the founder's budget ×0.5/×2 and the human's accuracy 0.8→0.97 and pins
+  // the two claims that pay for the framework in EVERY cell:
+  //   1. pyramid throughput per attention-hour beats all_consent;
+  //   2. pyramid incidents stay far below all_auto.
+  const budgets = [30, 60, 120];
+  const accuracies = [0.8, 0.9, 0.97];
+
+  it('throughput/hour and incident orderings hold across the whole grid', () => {
+    for (const minutesPerDay of budgets) {
+      for (const accuracy of accuracies) {
+        const cell = { ...world, human: { ...world.human, minutesPerDay, accuracy } };
+        const pyr = averageGating('pyramid', cell, SEEDS);
+        const consent = averageGating('all_consent', cell, SEEDS);
+        const auto = averageGating('all_auto', cell, SEEDS);
+        const label = `${minutesPerDay} min/day · accuracy ${accuracy}`;
+        expect(pyr.unblockedPerHour, label).toBeGreaterThan(consent.unblockedPerHour);
+        expect(pyr.incidents, label).toBeLessThan(auto.incidents / 4);
+      }
+    }
+  });
+
+  it('the governor beats static at a reasonable track bar — and at a very high bar it costs at most noise', () => {
+    // Measured, not assumed: at minTrack 40 on a 60-day horizon the
+    // promotion lands too late to pay for itself (146.6 vs 147.6 unblocked,
+    // −0.7%). The honest claim is "wins when trust can actually be earned
+    // within the horizon, never loses more than noise when it cannot" —
+    // pinned exactly like that, so nobody oversells the governor either.
+    const stat = averageGating('pyramid', world, SEEDS);
+    for (const minTrack of [10, 20]) {
+      const cfg = { ...world, governor: { minTrack, errorBudget: 0.25 } };
+      const gov = averageGating('pyramid_governor', cfg, SEEDS);
+      expect(gov.unblocked, `minTrack ${minTrack}`).toBeGreaterThanOrEqual(stat.unblocked);
+    }
+    const late = averageGating('pyramid_governor', { ...world, governor: { minTrack: 40, errorBudget: 0.25 } }, SEEDS);
+    expect(late.unblocked).toBeGreaterThanOrEqual(stat.unblocked * 0.98);
   });
 });

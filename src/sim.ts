@@ -252,6 +252,170 @@ export function simulateGating(policy: GatingPolicy, cfg: GatingConfig): GatingR
   };
 }
 
+// ── SOP gating simulation ────────────────────────────────────────────────────
+
+/**
+ * The weakest-link law, priced. A procedure (SOP) is a CHAIN of steps; the
+ * question is which tier gates the WHOLE chain. `weakest_link` is what
+ * `deriveSopTier` ships (max of the steps); `average_tier` is the tempting
+ * alternative every scoring system reinvents — and the reason it is banned:
+ * two harmless steps around one merchant-visible irreversible step average
+ * out to "auto", and the dangerous step fires with nobody in the loop.
+ */
+export type SopPolicy = 'weakest_link' | 'average_tier';
+
+export interface SopStepWorld {
+  reversible: boolean;
+  externallyVisible: boolean;
+  domain: Domain;
+}
+
+export interface SopKindWorld {
+  kind: string;
+  steps: SopStepWorld[];
+  /** Ground truth: P(a proposed run of this procedure is the right thing). */
+  goodRate: number;
+  /** Proposed runs per simulated day. */
+  perDay: number;
+}
+
+export interface SopConfig {
+  days: number;
+  seed: number;
+  sops: SopKindWorld[];
+  human: GatingHuman;
+}
+
+export interface SopResult {
+  policy: SopPolicy;
+  runsFired: number;
+  /** BAD runs that fired while containing an irreversible+external step. */
+  incidents: number;
+  /**
+   * Runs containing a dangerous step that fired from an AUTO gate (tier ≤ 1)
+   * — nobody was in or on the loop. Under weakest_link this is structurally
+   * zero; under average_tier it is the whole pathology.
+   */
+  dangerousAutoFired: number;
+  stopped: number;
+  humanMinutes: number;
+  queuedEnd: number;
+}
+
+const chainTier = (policy: SopPolicy, tiers: readonly number[]): number => {
+  if (policy === 'weakest_link') return Math.max(...tiers);
+  return Math.round(tiers.reduce((s, t) => s + t, 0) / tiers.length);
+};
+
+interface SopRun {
+  sopIx: number;
+  good: boolean;
+}
+
+/** Same daily mechanics as `simulateGating`, one chain = one decision. */
+export function simulateSopGating(policy: SopPolicy, cfg: SopConfig): SopResult {
+  const rng = lcg(cfg.seed);
+  const tiersOf = cfg.sops.map((s) => s.steps.map((st) => deriveTier(st).tier));
+  const dangerous = cfg.sops.map((s) => s.steps.some((st) => !st.reversible && st.externallyVisible));
+  const gate = cfg.sops.map((_, ix) => chainTier(policy, tiersOf[ix]));
+
+  const consentQ: SopRun[] = [];
+  let vetoLane: SopRun[] = [];
+  let runsFired = 0;
+  let incidents = 0;
+  let dangerousAutoFired = 0;
+  let stopped = 0;
+  let humanMinutes = 0;
+
+  const fire = (run: SopRun, auto: boolean): void => {
+    runsFired++;
+    if (dangerous[run.sopIx] && auto) dangerousAutoFired++;
+    if (!run.good && dangerous[run.sopIx]) incidents++;
+  };
+
+  for (let day = 0; day < cfg.days; day++) {
+    const newVeto: SopRun[] = [];
+    cfg.sops.forEach((s, sopIx) => {
+      for (let i = 0; i < s.perDay; i++) {
+        const run: SopRun = { sopIx, good: rng.next() < s.goodRate };
+        if (gate[sopIx] <= 1) fire(run, true);
+        else if (gate[sopIx] === 2) newVeto.push(run);
+        else consentQ.push(run);
+      }
+    });
+
+    let minutes = cfg.human.minutesPerDay;
+    for (const run of vetoLane) {
+      if (minutes >= cfg.human.minutesPerVetoScan) {
+        minutes -= cfg.human.minutesPerVetoScan;
+        humanMinutes += cfg.human.minutesPerVetoScan;
+        const judgedBad = rng.next() < cfg.human.accuracy ? !run.good : run.good;
+        if (judgedBad) {
+          stopped++;
+          continue;
+        }
+      }
+      fire(run, false);
+    }
+    vetoLane = newVeto;
+
+    while (consentQ.length > 0 && minutes >= cfg.human.minutesPerConsent) {
+      const run = consentQ.shift() as SopRun;
+      minutes -= cfg.human.minutesPerConsent;
+      humanMinutes += cfg.human.minutesPerConsent;
+      const judgedGood = rng.next() < cfg.human.accuracy ? run.good : !run.good;
+      if (judgedGood) fire(run, false);
+      else stopped++;
+    }
+  }
+
+  return {
+    policy,
+    runsFired,
+    incidents,
+    dangerousAutoFired,
+    stopped,
+    humanMinutes,
+    queuedEnd: consentQ.length + vetoLane.length,
+  };
+}
+
+/** Average across seeds — same rule as `averageGating`: never quote one run. */
+export function averageSop(policy: SopPolicy, cfg: Omit<SopConfig, 'seed'>, seeds: readonly number[]): SopResult {
+  const runs = seeds.map((seed) => simulateSopGating(policy, { ...cfg, seed }));
+  const avg = (f: (r: SopResult) => number): number =>
+    Math.round((runs.reduce((s, r) => s + f(r), 0) / runs.length) * 100) / 100;
+  return {
+    policy,
+    runsFired: avg((r) => r.runsFired),
+    incidents: avg((r) => r.incidents),
+    dangerousAutoFired: avg((r) => r.dangerousAutoFired),
+    stopped: avg((r) => r.stopped),
+    humanMinutes: avg((r) => r.humanMinutes),
+    queuedEnd: avg((r) => r.queuedEnd),
+  };
+}
+
+/** Three procedures a payments ops team would recognize. */
+export function defaultSopWorld(): Omit<SopConfig, 'seed'> {
+  const T0: SopStepWorld = { reversible: true, externallyVisible: false, domain: 'clear' };
+  const T1: SopStepWorld = { reversible: true, externallyVisible: false, domain: 'complicated' };
+  const T2: SopStepWorld = { reversible: false, externallyVisible: false, domain: 'complicated' };
+  const T3: SopStepWorld = { reversible: false, externallyVisible: true, domain: 'complicated' };
+  return {
+    days: 60,
+    sops: [
+      // Two harmless steps + one merchant email: avg rounds to T1 (auto!), max says T3.
+      { kind: 'activate_merchant', steps: [T0, T1, T3], goodRate: 0.8, perDay: 4 },
+      // Internal closure chain: avg == max == T2 — averaging is not always wrong, just unsafe.
+      { kind: 'close_dead_file', steps: [T1, T2], goodRate: 0.85, perDay: 3 },
+      // Broadcast with two external sends: avg T2 (veto) vs max T3 (consent).
+      { kind: 'outreach_campaign', steps: [T0, T3, T3], goodRate: 0.75, perDay: 2 },
+    ],
+    human: { minutesPerDay: 60, minutesPerConsent: 5, minutesPerVetoScan: 1, accuracy: 0.9 },
+  };
+}
+
 // ── outreach simulation ──────────────────────────────────────────────────────
 
 export type OutreachPolicy = 'naive' | 'law';
