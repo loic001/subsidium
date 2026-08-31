@@ -1,0 +1,75 @@
+PRINCIPLES.md
+  s_80acb328a73c8b::t_50555e71e5acdd 93-100
+__tests__/surface.test.ts
+  s_80acb328a73c8b::t_d3ed3853814ce7 35
+__tests__/sim.test.ts
+  s_80acb328a73c8b::t_58b0a0c70fb7ba 17,25
+  s_80acb328a73c8b::t_3b07d389324874 166-233
+bench/report.ts
+  s_80acb328a73c8b::t_40af866a33ce76 70-83
+  s_80acb328a73c8b::t_db6dbcdd03702a 11
+src/sim.ts
+  s_80acb328a73c8b::t_846d5fc1c63f8e 170
+  s_80acb328a73c8b::t_cda8beb5bd54ca 577-578
+  s_80acb328a73c8b::t_d0d32e52bd3897 629-631
+  s_80acb328a73c8b::t_5d3b487b7f1e08 93-103
+  s_80acb328a73c8b::t_f5e2950d1b569f 228-238,241-243
+  s_80acb328a73c8b::t_584ae330feb412 291
+  s_80acb328a73c8b::t_0393aa51ab1ff9 252
+  s_80acb328a73c8b::t_0a5839e26417f1 29
+  s_80acb328a73c8b::t_e597c5d0c5406e 125-133
+  s_80acb328a73c8b::t_00e0c31cc737ed 601-628,632-633
+  s_80acb328a73c8b::t_31587105b936ba 239-240
+  s_80acb328a73c8b::t_dd0335bd86f9e5 270
+README.md
+  s_80acb328a73c8b::t_dd937e644c0338 140-144
+  s_80acb328a73c8b::t_830bf5753134da 282-302
+src/governor.ts
+  s_80acb328a73c8b::t_eeb4db5325ebca 103-112,119
+coverage/attention.ts.html
+  s_80acb328a73c8b::t_1a6ca04521278c 283
+coverage/clover.xml
+  s_80acb328a73c8b::t_b34676fde083d1 2-4,164,177-189,192-222,224-242,311,316-461,463-631,777-789,793-805
+coverage/coverage-final.json
+  s_80acb328a73c8b::t_a6904538ce6f78 4,7,10
+coverage/dashboard.ts.html
+  s_80acb328a73c8b::t_9521e074ed8733 535
+coverage/escalation.ts.html
+  s_80acb328a73c8b::t_cf57cdfd78cb99 181
+coverage/governor.ts.html
+  s_80acb328a73c8b::t_82dd2ab22a8d17 28,49,215-225,285,287,289-293,296-300,303,312-318,320-325,335-356,362,375-383,486-495,502,550
+coverage/index.html
+  s_80acb328a73c8b::t_ae72b988be410d 28,35,42,49,132,138,177,179,181,183,254
+coverage/index.ts.html
+  s_80acb328a73c8b::t_bb27581fbdf080 127
+coverage/measure.ts.html
+  s_80acb328a73c8b::t_2fa33b4a50223d 448
+coverage/sim.ts.html
+  s_80acb328a73c8b::t_d4e90ec707b0e1 28,35,42,49,624-699,741-768,855-899,903,907-926,929-936,938-940,945-960,963-991,1257-1278,1299-1331,1360,1424-1434,1456-1464,1501,1558-1573,1583,1601,1622,1908-1909,1932-1964,1972
+coverage/sop.ts.html
+  s_80acb328a73c8b::t_821f2e65643db6 448
+coverage/thread.ts.html
+  s_80acb328a73c8b::t_e47cc440c1aee3 571
+coverage/tier.ts.html
+  s_80acb328a73c8b::t_e033e687c9d4be 215-230,235-238,240-243,245-246,248,258-259,364
+coverage/types.ts.html
+  s_80acb328a73c8b::t_0da95aeca90d68 730
+package.json
+  s_80acb328a73c8b::t_b9b759072dee40 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "d010286de707ee4c836d3ba124e2d83284fcfbfd",
+  "prompts": {},
+  "sessions": {
+    "s_80acb328a73c8b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "ef051c58-75b7-48a1-8161-00a0ac4b13fd",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    }
+  }
+}
