@@ -137,7 +137,11 @@ budget (the Kubernetes operator lesson: Deep Insights before Auto Pilot).
 One human contest — "this needed me" — snaps it back instantly and
 stickily. The yellow card — "this did *not* need me" — is evidence for the
 review, never a lever: you do not reach autonomy by reclassifying what
-gets counted.
+gets counted. The cliff waits for a **deliberate review** (`reset`), and
+the contest is an *alarm, not a criminal record*: its job was to force
+that review, and the review's verdict replaces it — trust still re-earns
+from zero track. This closes the self-learning loop: the system converges
+(see the convergence table below) only with the review in place.
 
 ![Promotion is earned, demotion is a cliff — derived T3, promoted to T2 after 20 clean runs under the error budget, snapped back to T3 by one human contest, sticky until a deliberate reset](art/governor.png)
 
@@ -274,6 +278,27 @@ tempting average-of-steps —
 |---|---|---|---|
 | `weakest_link` (`deriveSopTier`) | 403.2 | **0** (structural) | 8.2 |
 | `average_tier` | 464.6 | 240 | 52.8 |
+
+Convergence — the self-learning loop, priced (84 days, trustworthy kinds,
+weekly autonomy review, `convergentWorld()`):
+
+| policy | week 1 | last 3 weeks (mean) | total h-minutes |
+|---|---|---|---|
+| `pyramid` (static) | 304 | 308 (flat) | 3692 |
+| `governor + review` | 238 | **141** | **1844** |
+| `governor, NO review` | 238 | 185 (frozen) | 2123 |
+
+The human's week **shrinks by ~40% and converges toward the irreducible
+complex core** — the T4 judgment calls that genuinely need a human — while
+total attention halves and throughput per human-hour doubles vs static, at
+equal-or-better safety. Three preconditions, each pinned by a test that
+removes it: a **trustworthy world** (in the messy default world the curve
+stays flat — no unearned convergence), a **consistent reviewer** (a
+0.9-accurate human writes noise into every track record and trust is never
+granted), and the **autonomy review** — without it, ONE caught bad fire on
+a 99%-good kind triggers the sticky cliff and freezes trust forever. The
+review is also honest in reverse: it refuses to re-arm a kind whose record
+turned rotten, and the curve climbs back to static with fewer incidents.
 
 Outreach, 500 counterparts with a hidden preferred channel and a patience
 threshold: the thread law gets **3× the replies of the naive hammer with

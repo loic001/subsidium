@@ -26,7 +26,7 @@
  * final word — a simulation win is a license to run the real experiment,
  * never a substitute for it.
  */
-import { TierGovernor, type GovernorOptions } from './governor';
+import { DEFAULT_GOVERNOR_OPTIONS, TierGovernor, type GovernorOptions } from './governor';
 import { deriveTier } from './tier';
 import { nextMove, transition } from './thread';
 import type { Domain, ThreadState } from './types';
@@ -90,6 +90,17 @@ export interface GatingConfig {
   /** Optional regime change: from `day` on, `kind` proposes good actions at `goodRate`. */
   drift?: { day: number; kind: string; goodRate: number };
   governor?: GovernorOptions;
+  /**
+   * The AUTONOMY REVIEW — the loop that makes convergence durable. A cliff
+   * demotion is sticky by design: it waits for a deliberate human review,
+   * not for time to pass. Without a review, ONE bad fire on a 99%-good kind
+   * freezes its trust forever and the attention curve climbs back up.
+   * Every `everyDays`, the human spends `minutesPerItem` per demoted kind
+   * (charged against the daily budget) and resets it iff its track record
+   * — failures over executions, the contest excluded: the reviewer judges
+   * the underlying record, not the alarm — fits the error budget.
+   */
+  review?: { everyDays: number; minutesPerItem: number };
 }
 
 export interface GatingResult {
@@ -111,6 +122,15 @@ export interface GatingResult {
   avgWaitDays: number;
   /** unblocked per human HOUR — throughput of the scarce resource. */
   unblockedPerHour: number;
+  /**
+   * Human minutes per 7-day bucket — the CONVERGENCE curve. A self-learning
+   * system must show it here: as kinds earn trust, consent becomes veto
+   * becomes auto, and the human's week shrinks toward the irreducible core
+   * (the complex tiers that genuinely need a human). A flat curve under the
+   * governor means the world is not trustworthy — which is the correct
+   * answer, not a failure.
+   */
+  weeklyHumanMinutes: number[];
 }
 
 interface Item {
@@ -147,6 +167,7 @@ export function simulateGating(policy: GatingPolicy, cfg: GatingConfig): GatingR
   let stopped = 0;
   let humanMinutes = 0;
   let waitSum = 0;
+  const weeklyHumanMinutes: number[] = new Array(Math.ceil(cfg.days / 7)).fill(0);
 
   const isGoverned = policy === 'pyramid_governor';
   const contestRate = cfg.human.contestRate ?? cfg.human.accuracy;
@@ -204,6 +225,22 @@ export function simulateGating(policy: GatingPolicy, cfg: GatingConfig): GatingR
     // 3 · the human's day
     let minutes = cfg.human.minutesPerDay;
 
+    // 3a · autonomy review — reading a track record costs real minutes, and
+    // re-arming trust is a deliberate act, never automatic (reset() is the
+    // only door out of a sticky demotion).
+    if (isGoverned && cfg.review && day > 0 && day % cfg.review.everyDays === 0) {
+      const budget = (cfg.governor ?? DEFAULT_GOVERNOR_OPTIONS).errorBudget;
+      for (const k of cfg.kinds) {
+        const snap = gov.snapshot(k.kind);
+        if (!snap.demotedUntilReset || minutes < cfg.review.minutesPerItem) continue;
+        minutes -= cfg.review.minutesPerItem;
+        humanMinutes += cfg.review.minutesPerItem;
+        weeklyHumanMinutes[Math.floor(day / 7)] += cfg.review.minutesPerItem;
+        // Multiplication form: no division, no NaN case, same meaning.
+        if (snap.failures <= budget * snap.executions) gov.reset(k.kind);
+      }
+    }
+
     // veto lane: yesterday's items close their window today. Scanned + judged
     // bad → objection. Everything not scanned fires on silence — that is what
     // a veto IS, and it is why the scan is priced cheap.
@@ -212,6 +249,7 @@ export function simulateGating(policy: GatingPolicy, cfg: GatingConfig): GatingR
       if (minutes >= cfg.human.minutesPerVetoScan) {
         minutes -= cfg.human.minutesPerVetoScan;
         humanMinutes += cfg.human.minutesPerVetoScan;
+        weeklyHumanMinutes[Math.floor(day / 7)] += cfg.human.minutesPerVetoScan;
         const judgedBad = rng.next() < cfg.human.accuracy ? !it.good : it.good;
         if (judgedBad) {
           stopped++;
@@ -229,6 +267,7 @@ export function simulateGating(policy: GatingPolicy, cfg: GatingConfig): GatingR
       const cost = cfg.human.minutesPerConsent * it.costX;
       minutes -= cost;
       humanMinutes += cost;
+      weeklyHumanMinutes[Math.floor(day / 7)] += cost;
       const judgedGood = rng.next() < cfg.human.accuracy ? it.good : !it.good;
       if (judgedGood) fire(it, day);
       else {
@@ -249,6 +288,7 @@ export function simulateGating(policy: GatingPolicy, cfg: GatingConfig): GatingR
     queuedEnd: consentQ.length + vetoLane.length,
     avgWaitDays: fired > 0 ? Math.round((waitSum / fired) * 100) / 100 : 0,
     unblockedPerHour: humanMinutes > 0 ? Math.round((unblocked / (humanMinutes / 60)) * 100) / 100 : Number.POSITIVE_INFINITY,
+    weeklyHumanMinutes,
   };
 }
 
@@ -534,6 +574,8 @@ export function averageGating(
     queuedEnd: avg((r) => r.queuedEnd),
     avgWaitDays: avg((r) => r.avgWaitDays),
     unblockedPerHour: avg((r) => (Number.isFinite(r.unblockedPerHour) ? r.unblockedPerHour : 0)),
+    // Element-wise: all runs share cfg.days, so the buckets line up.
+    weeklyHumanMinutes: runs[0].weeklyHumanMinutes.map((_, w) => avg((r) => r.weeklyHumanMinutes[w])),
   };
 }
 
@@ -554,5 +596,38 @@ export function defaultWorld(): Omit<GatingConfig, 'seed'> {
       { kind: 'underwriting_call', reversible: false, externallyVisible: true, domain: 'complex', goodRate: 0.6, unblockRate: 0.5, perDay: 1 },
     ],
     human: { minutesPerDay: 60, minutesPerConsent: 5, minutesPerVetoScan: 1, accuracy: 0.9 },
+  };
+}
+
+/**
+ * The world where CONVERGENCE is earnable — and its honest preconditions.
+ *
+ * A self-learning system converges only when two things are true at once:
+ * the world contains genuinely trustworthy kinds (goodRate ≈ 0.99 — a
+ * routine the team has run a hundred times), and the human's judgments are
+ * CONSISTENT (accuracy 0.97). Both matter: with a 0.9-accurate human, one
+ * rejection in ten of GOOD items writes 'failure' into the track record,
+ * the observed error rate never fits the budget, and trust is never
+ * granted — a capricious reviewer is indistinguishable from a bad world.
+ *
+ * What the curve converges TO is the point: not zero, but the irreducible
+ * complex core (`underwriting_call`, T4) that genuinely needs a human.
+ * 84 days = 12 weekly buckets, enough to see the shape.
+ */
+export function convergentWorld(): Omit<GatingConfig, 'seed'> {
+  return {
+    days: 84,
+    kinds: [
+      // A routine merchant status email: T3 by properties, 99% right in practice.
+      { kind: 'routine_status_email', reversible: false, externallyVisible: true, domain: 'complicated', goodRate: 0.99, unblockRate: 0.2, perDay: 6 },
+      // Internal CRM cleanup: T2, near-perfect track.
+      { kind: 'crm_cleanup', reversible: false, externallyVisible: false, domain: 'complicated', goodRate: 0.98, unblockRate: 0.1, perDay: 4 },
+      // The irreducible core: complex judgment, never promotable into silence.
+      { kind: 'underwriting_call', reversible: false, externallyVisible: true, domain: 'complex', goodRate: 0.6, unblockRate: 0.5, perDay: 1 },
+    ],
+    human: { minutesPerDay: 60, minutesPerConsent: 5, minutesPerVetoScan: 1, accuracy: 0.97 },
+    // The weekly autonomy review IS part of the convergent loop — without it,
+    // one caught bad fire freezes a 99%-good kind at consent forever.
+    review: { everyDays: 7, minutesPerItem: 5 },
   };
 }

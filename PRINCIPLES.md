@@ -90,6 +90,14 @@ stairs and takes the elevator down.
   not need me" (`contestDown`) is recorded for the human review and moves
   nothing automatically. You do not reach autonomy by reclassifying what
   gets counted. Pinned: contests-down change no tier.
+- **Corollary — the contest is an alarm, not a criminal record:** the
+  cliff waits for a deliberate review (`reset`), and the review's verdict
+  replaces the alarm — trust re-earns from zero track, but the promotion
+  bar does not climb forever. Without this, one caught bad fire on a
+  99%-good kind freezes its trust for good, and the system cannot
+  converge (*sim*: last-3-weeks attention 141 min/week with the review
+  vs 185 frozen without, static pyramid 308 — the human week shrinks
+  ~40% and converges toward the irreducible complex core).
 
 ### 6. Trust belongs to the version
 

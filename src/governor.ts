@@ -100,13 +100,23 @@ export class TierGovernor {
     return bad / r.executions <= this.opts.errorBudget;
   }
 
-  /** Clear a sticky demotion after a human review. Deliberate act only. */
+  /**
+   * Clear a sticky demotion after a human review. Deliberate act only.
+   *
+   * The contest is an ALARM, not a criminal record: its job was to force
+   * this review, and the review's verdict replaces it — so it is cleared
+   * with the track. Keeping contests forever makes every promotion bar
+   * ~20× higher per alarm, and at the horizon every kind freezes at its
+   * derived tier: a reset() that cannot re-arm is a turkey. The real
+   * protection stays: trust re-earns from ZERO track, a step at a time.
+   */
   reset(kind: string): void {
     const r = this.records.get(kind);
     if (r) {
       r.demotedUntilReset = false;
       r.executions = 0;
       r.failures = 0;
+      r.contestsUp = 0;
     }
   }
 

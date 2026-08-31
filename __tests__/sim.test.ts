@@ -14,6 +14,7 @@ import { describe, expect, it } from 'vitest';
 import {
   averageGating,
   averageSop,
+  convergentWorld,
   defaultSopWorld,
   defaultWorld,
   lcg,
@@ -21,6 +22,7 @@ import {
   simulateOutreach,
   simulateSopGating,
   type GatingConfig,
+  type GatingResult,
   type OutreachConfig,
 } from '../src/sim';
 
@@ -158,6 +160,74 @@ describe('the governor under drift — the regime-change test', () => {
     );
     expect(withCliff.badFired).toBeLessThanOrEqual(stat.badFired * 1.1);
     expect(noCliff.badFired).toBeGreaterThan(withCliff.badFired * 1.5);
+  });
+});
+
+describe('convergence — the self-learning loop, priced', () => {
+  // The claim behind "auto-apprenant et qui converge": as kinds earn trust,
+  // consent becomes veto becomes auto and the human's WEEK shrinks — toward
+  // the irreducible complex core, never to zero. Preconditions are part of
+  // the doctrine: a trustworthy world AND a consistent reviewer AND the
+  // weekly autonomy review that re-arms cliffed kinds whose record deserves
+  // it. Remove any of the three and the curve refuses to converge — pinned
+  // below, each one.
+  const cw = convergentWorld();
+  const pyr = averageGating('pyramid', cw, SEEDS);
+  const gov = averageGating('pyramid_governor', cw, SEEDS);
+  const noReview = averageGating('pyramid_governor', { ...cw, review: undefined }, SEEDS);
+  const last3 = (r: GatingResult): number =>
+    r.weeklyHumanMinutes.slice(-3).reduce((a, b) => a + b, 0) / 3;
+
+  it('the human week SHRINKS: the last three weeks cost ≤ 70% of week one', () => {
+    expect(last3(gov)).toBeLessThanOrEqual(gov.weeklyHumanMinutes[0] * 0.7);
+  });
+
+  it('…and EVERY single week costs less than the static pyramid — convergence is not a spike', () => {
+    gov.weeklyHumanMinutes.forEach((m, w) => {
+      expect(m).toBeLessThan(pyr.weeklyHumanMinutes[w]);
+    });
+  });
+
+  it('the totals: attention halves, throughput per human-hour doubles, safety holds', () => {
+    expect(gov.humanMinutes).toBeLessThanOrEqual(pyr.humanMinutes * 0.55);
+    expect(gov.unblockedPerHour).toBeGreaterThanOrEqual(pyr.unblockedPerHour * 2);
+    expect(gov.unblocked).toBeGreaterThanOrEqual(pyr.unblocked);
+    expect(gov.incidents).toBeLessThanOrEqual(pyr.incidents + 0.5);
+  });
+
+  it('WITHOUT the autonomy review the cliff freezes trust — convergence is not durable', () => {
+    // One caught bad fire on a 99%-good kind demotes it stickily; nobody
+    // re-arms it; the curve climbs back and stays. The review is the loop.
+    expect(last3(noReview)).toBeGreaterThanOrEqual(last3(gov) * 1.2);
+  });
+
+  it('a review that never fits the daily budget never happens — identical to no review', () => {
+    const starved = averageGating(
+      'pyramid_governor',
+      { ...cw, review: { everyDays: 7, minutesPerItem: cw.human.minutesPerDay + 1 } },
+      SEEDS,
+    );
+    expect(starved.weeklyHumanMinutes).toEqual(noReview.weeklyHumanMinutes);
+  });
+
+  it('the review REFUSES a rotten kind: no unearned re-arming, ever', () => {
+    // The trustworthy kind turns rotten at day 28. The cliff demotes it, the
+    // review reads its record, and keeps refusing: the curve climbs back to
+    // the static level (the human is back in the loop) with FEWER incidents.
+    const rotten = { ...cw, drift: { day: 28, kind: 'routine_status_email', goodRate: 0.3 } };
+    const govRotten = averageGating('pyramid_governor', rotten, SEEDS);
+    const pyrRotten = averageGating('pyramid', rotten, SEEDS);
+    expect(last3(govRotten)).toBeGreaterThanOrEqual(last3(pyrRotten) * 0.95);
+    expect(govRotten.incidents).toBeLessThanOrEqual(pyrRotten.incidents);
+  });
+
+  it('no unearned convergence: in the messy default world the curve stays flat', () => {
+    // defaultWorld's consent kinds run 80-85% good — trust is never granted,
+    // and the honest curve says so. (Full weeks only: 60 days leaves a
+    // 4-day tail bucket.)
+    const messy = averageGating('pyramid_governor', world, SEEDS);
+    const weeks = messy.weeklyHumanMinutes;
+    expect(weeks[7]).toBeGreaterThanOrEqual(weeks[0] * 0.95);
   });
 });
 

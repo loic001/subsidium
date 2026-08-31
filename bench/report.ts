@@ -8,6 +8,7 @@
 import {
   averageGating,
   averageSop,
+  convergentWorld,
   defaultSopWorld,
   defaultWorld,
   simulateOutreach,
@@ -65,6 +66,20 @@ for (const policy of ['weakest_link', 'average_tier'] as SopPolicy[]) {
 }
 console.log('  dangerous-auto = chains containing an irreversible+external step fired with NOBODY in the loop.');
 console.log('  Averaging looks faster on every dashboard metric — the incidents are what the dashboard does not show.');
+
+console.log('\nCONVERGENCE — the self-learning loop (84 days, trustworthy kinds, weekly autonomy review)');
+const cw = convergentWorld();
+const curve = (weeks: number[]): string => weeks.map((m) => pad(Math.round(m), 5)).join('');
+for (const [label, cfg, policy] of [
+  ['pyramid (static)', cw, 'pyramid'],
+  ['governor + review', cw, 'pyramid_governor'],
+  ['governor, NO review', { ...cw, review: undefined }, 'pyramid_governor'],
+] as const) {
+  const r = averageGating(policy, cfg, SEEDS);
+  console.log(`  ${label.padEnd(22)}${curve(r.weeklyHumanMinutes)}   total ${pad(r.humanMinutes, 7)}`);
+}
+console.log('  human minutes per WEEK, left to right. The governor+review curve converges toward the');
+console.log('  irreducible complex core; without the review, one caught bad fire freezes trust forever.');
 
 console.log('\nOUTREACH — 500 counterparts, hidden preferred channel, patience threshold 1');
 const outreach: OutreachConfig = {

@@ -32,6 +32,7 @@ describe('the package surface', () => {
       'simulateSopGating',
       'averageGating',
       'averageSop',
+      'convergentWorld',
       'defaultWorld',
       'defaultSopWorld',
       'whyEscalated',
