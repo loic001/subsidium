@@ -1,6 +1,6 @@
 {
   "name": "subsidium",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Operational-assistance framework: humans are the most expensive tier. Drive an existing system with agents, escalate to people only what has proven it needs them.",
   "type": "module",
   "main": "./dist/index.js",
