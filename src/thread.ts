@@ -15,7 +15,21 @@
  *  move must CHANGE something (channel, counterpart, or question) or close
  *  the thread. `nextMove` encodes exactly that.
  */
-import type { ThreadId, ThreadState, ThreadStatus } from './types';
+import type { Counterpart, ThreadId, ThreadState, ThreadStatus } from './types';
+
+/**
+ * The authorship predicate — the most expensive law in this framework.
+ *
+ * Systems that ingest their own messages count themselves as replies:
+ * measured on the production system this kernel was extracted from,
+ * 81% apparent reply rate vs 11% real. Every engagement counter passes
+ * through here, FAIL-CLOSED: "I don't know who spoke" never counts as
+ * "the counterpart replied". Feed `transition(state, counterpart_replied)`
+ * only when this returns true.
+ */
+export function countsAsReply(speaker: Pick<Counterpart, 'side'> | null | undefined): boolean {
+  return speaker?.side === 'them';
+}
 
 /** What a reframe is allowed to change. The host picks HOW; the kernel picks THAT it must change. */
 export type ReframeAxis = 'channel' | 'counterpart' | 'question';

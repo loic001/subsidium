@@ -18,6 +18,7 @@ describe('the package surface', () => {
       'DEFAULT_GOVERNOR_OPTIONS',
       'transition',
       'nextMove',
+      'countsAsReply',
       'DEFAULT_THREAD_POLICY',
       'THREAD_STATUSES',
       'admit',

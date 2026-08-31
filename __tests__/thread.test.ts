@@ -5,6 +5,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import {
+  countsAsReply,
   nextMove,
   normalizeTopic,
   pickReframe,
@@ -145,6 +146,29 @@ describe('ThreadId — subject AND topic, never a place or a person', () => {
     expect(s).toEqual(input);
     input.nudgesSinceReply = 9;
     expect(s.nudgesSinceReply).toBe(1);
+  });
+});
+
+describe('countsAsReply — the authorship predicate (81% apparent vs 11% real)', () => {
+  it('only the counterpart side counts as a reply', () => {
+    expect(countsAsReply({ side: 'them' })).toBe(true);
+  });
+
+  it('our own voice is not engagement', () => {
+    expect(countsAsReply({ side: 'us' })).toBe(false);
+  });
+
+  it('fail-closed: an unknown speaker never counts', () => {
+    expect(countsAsReply(null)).toBe(false);
+    expect(countsAsReply(undefined)).toBe(false);
+  });
+
+  it('gates the transition: only a true predicate should feed counterpart_replied', () => {
+    const nudged = transition(fresh, { kind: 'nudged' });
+    // The host pattern: if (countsAsReply(speaker)) transition(s, counterpart_replied)
+    const speaker = { side: 'us' as const };
+    const next = countsAsReply(speaker) ? transition(nudged, { kind: 'counterpart_replied' }) : nudged;
+    expect(next.status).toBe('awaiting_reply'); // our own message changed nothing
   });
 });
 

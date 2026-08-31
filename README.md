@@ -110,13 +110,26 @@ Every tier above 0 carries human-readable reasons, enforced structurally.
 An unexplained escalation is the exact failure mode this framework exists
 to prevent.
 
+One asymmetry, on purpose: **T5 is declared, never derived.** The
+classifier tops out at T4 — no property combination proves "the system
+must not even prepare this". Out-of-scope is a host decision about a
+whole action kind (fire someone, sign a contract): the host refuses the
+kind and the system only signals. Six tiers on the pyramid, five out of
+the classifier.
+
 ## The laws (each one paid for)
+
+Every law below follows the same contract — a statement, an origin, the
+primitive that enforces it, the test that pins it, the price of ignoring
+it. The canonical page is [`PRINCIPLES.md`](PRINCIPLES.md); this section
+is the short version.
 
 **Our own voice is not engagement.** Systems that ingest their own messages
 count themselves as replies. Measured on the production system this
 framework was extracted from: 81% apparent reply rate, 11% real. Every
-engagement counter must pass an authorship predicate, fail-closed:
-"I don't know who spoke" never counts as "the counterpart replied".
+engagement counter must pass the authorship predicate `countsAsReply`,
+fail-closed: "I don't know who spoke" never counts as "the counterpart
+replied".
 
 **Promotion is earned, demotion is a cliff.** An action kind runs one tier
 below its derived tier only after a measured track record under an error

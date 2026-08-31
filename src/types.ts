@@ -103,6 +103,12 @@ export type Domain = 'clear' | 'complicated' | 'complex';
  *  T4 human_decision the system prepares the file and
  *                    asks ONE question; a human decides.
  *  T5 out_of_scope   the system only signals.
+ *
+ * T5 is DECLARED, never derived: `deriveTier` tops out at T4 (complex),
+ * because no property combination proves "the system must not even
+ * prepare this". Out-of-scope is a host decision about a whole kind
+ * (fire the founder, sign a contract) — the host refuses the kind and
+ * only signals. The pyramid shows six tiers; the classifier emits five.
  */
 export type Tier = 0 | 1 | 2 | 3 | 4 | 5;
 

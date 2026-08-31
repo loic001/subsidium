@@ -38,7 +38,16 @@ function assertViable(budget: AttentionBudget): void {
   }
 }
 
-/** Try to put one item in front of the human today. */
+/**
+ * Try to put one item in front of the human today.
+ *
+ * HOST WARNING (a real bug, shipped once): if your host retries refused
+ * items on a sweep (a cron re-asking every tick) AND persists the refused
+ * state, the same waiting item inflates `queued` by one per tick, and
+ * rollover() drains those phantoms by pre-spending tomorrow's budget.
+ * When the host already persists its queue elsewhere (a proposals table),
+ * persist the ADMITTED state only — the refusal is not new information.
+ */
 export function admit(budget: AttentionBudget, state: AttentionState): AttentionDecision {
   assertViable(budget);
   const after = state.spentToday + budget.minutesPerItem;
