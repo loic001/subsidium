@@ -199,6 +199,39 @@ regression), `too_early` below the n bar, and `improved` / `regressed` /
 no p-value theater, just the three questions that catch most lies:
 compared to what? on how many? counted how?
 
+## Agents — the executor is not a tier
+
+The recurring question — *"where does the agent go in the pyramid?"* — is
+a category error, and [`src/mission.ts`](src/mission.ts) exists to make it
+impossible to ask. The pyramid classifies **actions** (reversibility,
+visibility, domain) and answers *who must approve this?*; it never answers
+*who does the work?*. The human is not a stage of a pipeline — the human
+is a **gate** certain tiers must pass. Code and agents both run around the
+gates:
+
+- **Code action** — deterministic executor, closed outcome space. You can
+  write `verify()` as a precise precondition, so its tier is known in
+  advance. Assigning an account manager to a merchant is this: no agent
+  needed, ever.
+- **Mission** (`MissionSpec`) — stochastic executor, open outcome space.
+  The agent reads, diagnoses, composes steps you did not enumerate. You
+  cannot tier a plan that does not exist yet — so `gateToolCall` gates
+  **every tool call** at the moment it happens. Tools at or under the
+  mission's **mandate** run without stopping; above it, the run pauses
+  and the call lands in the same inbox as every other proposal. An
+  undeclared tool is refused, fail closed (*no raw hands*), and a mandate
+  above T2 throws — T3 is by definition a human click.
+
+A run is a **dynamic SOP**: `missionTier` gives it the weakest-link tier
+over the tools it *actually* called. Trust (`missionGovernorKey`) is
+earned per `(mission version × tool kind)` — never by "the agent" —
+and dies on any version bump, exactly like an edited SOP.
+
+The division of labor this enforces: **agents explore, code exploits**.
+A mission that repeats the same path has discovered a procedure — demote
+it to a code action or SOP, and let the agent go find the next unknown.
+Runnable walkthrough: [`examples/agent-mission.ts`](examples/agent-mission.ts).
+
 ## Vocabulary
 
 | Concept | One line |
@@ -214,6 +247,7 @@ compared to what? on how many? counted how?
 | `AttentionBudget` | minutes per day, minutes per item — the human tier's ledger |
 | `SopSpec` | a versioned chain of actions: weakest-link tier, approval voided by edits, trust per version |
 | `MetricSpec` / `judge` | a definition-pinned metric and the only honest way to claim it moved |
+| `MissionSpec` / `gateToolCall` | a stochastic executor gated at the tool boundary: mandate, no raw hands, trust per (version × tool kind) |
 
 ## Tested like it decides someone's day — because it does
 

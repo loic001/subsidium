@@ -205,6 +205,48 @@ renamed denominators. **Compared to what?** — there is no single-reading
 - **Price** (*prod*): see principle 7 — the 81%/11% lie was exactly a
   definition problem (who counts as a replier).
 
+## Executors
+
+### 14. The pyramid classifies actions, not executors
+
+"Where does the agent sit in the pyramid?" is a category error. The pyramid
+answers *who must approve this?* — never *who does the work?*. A code
+action, a managed agent (Claude, Mastra) and a SOP are all **executors**;
+the human is not a stage of the pipeline but a **gate** that certain tiers
+must pass. What separates a code action from an agent is the closure of
+the outcome space, not complexity: if you can write `verify()` as a
+precise precondition, it is code; if the path is not enumerable in
+advance, it is a **mission** — and then five sub-laws apply:
+
+- **No raw hands** — the agent touches the world only through declared,
+  gated tools; an undeclared call is refused, fail closed.
+- **Gate per call** — you cannot tier a plan that does not exist yet, so
+  the gate sits at the tool boundary. The **mandate** is the max tier the
+  agent crosses alone; above it, the call pauses and becomes an ordinary
+  proposal. A mandate above T2 is a spec bug: T3 is *by definition* a
+  human click.
+- **A run is a dynamic SOP** — its effective tier is the weakest link
+  (principle 11) over the tools it *actually* called, known only after
+  the fact.
+- **Trust belongs to (version × tool kind)** — never to "the agent".
+  New prompt or new model → new version → track record restarts at zero
+  (the same door Goodhart uses on SOPs, principle on trust-per-version).
+- **Exploration → exploitation** — a mission that repeats the same path
+  has *discovered* a procedure: demote it to a code action or SOP. The
+  agent is the exploration phase; the code action is the fossil of an
+  exploration that ended.
+
+- **Primitive:** `gateToolCall` / `missionGovernorKey` / `missionTier`
+  ([`src/mission.ts`](src/mission.ts)).
+- **Pinned by:** `mission.test.ts` — undeclared tool refused, mandate
+  pauses, promotion per tool kind, trust dies on version bump, weakest
+  link over actual calls, mandate > T2 throws.
+- **Origin** (*prod*): the reserve danger scan (2026-08-31). Reading the
+  fleet is free (T0/T1), raising a merchant's reserve touches their money
+  (T2), a target above the 40% cap has no right answer (T4), closing a
+  merchant is refused outright (declared T5) — one mission, four gates,
+  and no single tier could have priced the whole run honestly.
+
 ---
 
 ## What this page cannot do
