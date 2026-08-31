@@ -1,0 +1,64 @@
+PRINCIPLES.md
+  s_80acb328a73c8b::t_ba5cbbafa67444 1-207
+src/thread.ts
+  s_80acb328a73c8b::t_98858109bb330f 18-32
+src/types.ts
+  s_80acb328a73c8b::t_4afd70a0d6c0f4 106-111
+__tests__/thread.test.ts
+  s_80acb328a73c8b::t_6b045d119c443b 8
+  s_80acb328a73c8b::t_d13ed46af55638 152-174
+README.md
+  s_80acb328a73c8b::t_69a0fbf07f6ef3 113-119
+  s_80acb328a73c8b::t_db6f33db46488c 122-126,130-132
+__tests__/surface.test.ts
+  s_80acb328a73c8b::t_78af60084549af 21
+src/attention.ts
+  s_80acb328a73c8b::t_fdb98d5992cf8b 41-50
+package.json
+  s_80acb328a73c8b::t_c26943c5c7d4be 3
+  s_80acb328a73c8b::t_8c669b8cf96fc6 21-22
+coverage/attention.ts.html
+  s_80acb328a73c8b::t_68812b964cf0e8 127-136,177-185,246-255,283
+coverage/clover.xml
+  s_80acb328a73c8b::t_8b6f6987c7b4ba 2-4,18-35,650,652-658,660-673,678-732,782-787
+coverage/coverage-final.json
+  s_80acb328a73c8b::t_4faaaea3950a11 1,9,11
+coverage/dashboard.ts.html
+  s_80acb328a73c8b::t_6b8cb376ab3667 535
+coverage/escalation.ts.html
+  s_80acb328a73c8b::t_c432dc07fbfcf1 181
+coverage/governor.ts.html
+  s_80acb328a73c8b::t_9f834077b5d0e6 520
+coverage/index.html
+  s_80acb328a73c8b::t_d516f225831872 28,35,42,49,207,209,211,213,254
+coverage/index.ts.html
+  s_80acb328a73c8b::t_9ec590952f3795 127
+coverage/measure.ts.html
+  s_80acb328a73c8b::t_68c784be8b261e 448
+coverage/sim.ts.html
+  s_80acb328a73c8b::t_4866597268099e 1747
+coverage/sop.ts.html
+  s_80acb328a73c8b::t_65bea5ec599976 448
+coverage/thread.ts.html
+  s_80acb328a73c8b::t_e624203d33c0cf 28,35,42,49,218-239,262-268,335-336,338,340-342,348,350,352-353,415-429,571
+coverage/tier.ts.html
+  s_80acb328a73c8b::t_3e6a5608117d97 364
+coverage/types.ts.html
+  s_80acb328a73c8b::t_c5a9c15d2ece6d 279-291,609-614,730
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "3910ad47340e5c7e8ea65f5b182e161b5cef18c3",
+  "prompts": {},
+  "sessions": {
+    "s_80acb328a73c8b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "ef051c58-75b7-48a1-8161-00a0ac4b13fd",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    }
+  }
+}
