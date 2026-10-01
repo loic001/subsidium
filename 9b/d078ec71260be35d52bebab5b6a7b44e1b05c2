@@ -1,0 +1,31 @@
+PRINCIPLES.md
+  s_3a4e5052701bb1::t_d54c0ce375474a 250-307
+README.md
+  s_3a4e5052701bb1::t_ea57641718675c 165-177
+__tests__/ask.test.ts
+  s_3a4e5052701bb1::t_c9632942d2b239 1-159
+__tests__/surface.test.ts
+  s_3a4e5052701bb1::t_962e9163cbdbbe 50-57
+package.json
+  s_3a4e5052701bb1::t_cbb381d5cb7c73 3
+src/ask.ts
+  s_3a4e5052701bb1::t_005e7fbcfbe18b 1-189
+src/index.ts
+  s_3a4e5052701bb1::t_ec4845e6c9f00d 20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "9bd078ec71260be35d52bebab5b6a7b44e1b05c2",
+  "prompts": {},
+  "sessions": {
+    "s_3a4e5052701bb1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "46695ed4-1e3e-4873-8573-a49dd6468e1c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    }
+  }
+}
