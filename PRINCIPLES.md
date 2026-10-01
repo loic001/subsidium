@@ -247,6 +247,64 @@ advance, it is a **mission** — and then five sub-laws apply:
   merchant is refused outright (declared T5) — one mission, four gates,
   and no single tier could have priced the whole run honestly.
 
+## The ask
+
+### 15. An ask must be worth its minutes
+
+The pyramid says who must approve an action. It does not say whether a
+subject deserves a person at all. An ask — "can someone reach out", "please
+have a look" — spends minutes of the most expensive tier, so the stake
+behind it must repay those minutes several times over, in the host's own
+unit. An ask that cannot name its stake has not made its case: unknown is a
+refusal (principle 1 applied to the ask itself). One exception by design:
+when the counterpart asked for a person, a person answers — that is a
+reply, not an escalation.
+
+- **Primitive:** `askWorth` / `gateAsk` ([`src/ask.ts`](src/ask.ts)). The
+  verdict carries its arithmetic (cost, stake needed); non-positive pricing
+  throws — a free human makes every ask "worth it", which is a turkey.
+- **Pinned by:** `ask.test.ts` — boundary at stake = cost × return,
+  monotone in minutes, fail-closed on an unproven stake, the
+  counterpart-request exception, pathological pricing throws.
+- **Origin** (*prod*, 2026-10-01): a merchant with $294 of volume in 90
+  days (about $15 of margin), sales stopped 40 days earlier. The system
+  asked the account manager, then a tech channel two days later; a lead
+  engineer checked and answered "nothing blocking on our side".
+- **Price:** not measured yet. The origin is n=1, which this page's own
+  standard (principle 13) calls an anecdote; a closed-world scenario
+  (value unblocked per human-hour, with and without the floor) is open work.
+- **Order of the gates:** worth, then standing (16), then the attention
+  budget (10). A budget rations asks that deserved to exist; it is not a
+  substitute for asking whether they did.
+
+### 16. An ask that never pays loses its voice
+
+Every ask kind keeps a record of what the human's time actually bought:
+`paid` (their intervention changed the outcome), `not_needed`, or
+`unanswered`. Once the record is long enough to be read honestly and the
+yield sits under the floor, the kind stops interrupting. It is muted, not
+deleted: its items go to a digest the human reads on their own schedule,
+and a deliberate review (`reviewAsk`) restarts the record — the mute is an
+alarm, not a criminal record (same contract as principle 5).
+
+- **Primitive:** `recordAsk` / `askStanding` / `reviewAsk`
+  ([`src/ask.ts`](src/ask.ts)).
+- **Pinned by:** `ask.test.ts` — below `minN` the kind is `unproven` and
+  may ask (it must earn a record somehow); boundary at the floor; review
+  restarts from zero; a floor of zero throws (it never mutes anything).
+- **Price** (*prod*): in a ten-day audit of the system this kernel was
+  extracted from, 63 internal asks produced 4 unblocks (6%). The other 59
+  were a dead file, a counterpart who had left, the ball in the
+  counterpart's court, a normal delay not yet elapsed, or a colleague
+  already on it.
+- **Not a lever on autonomy:** muting grants the system nothing. The action
+  behind an ask keeps its derived tier; only the interruption is withheld.
+  This is why it does not contradict the yellow-card corollary of
+  principle 5 — nothing here lets the system *do* more, it only makes it
+  *ask* less.
+- **Host note:** yield belongs to the ask's wording and trigger. If either
+  changes, key the record on the new version, as with SOPs (principle 6).
+
 ---
 
 ## What this page cannot do

@@ -47,6 +47,14 @@ describe('the package surface', () => {
       'reading',
       'judge',
       'DEFAULT_JUDGE_OPTIONS',
+      'askWorth',
+      'askStanding',
+      'recordAsk',
+      'reviewAsk',
+      'gateAsk',
+      'EMPTY_ASK_RECORD',
+      'DEFAULT_ASK_PRICING',
+      'DEFAULT_ASK_YIELD_POLICY',
     ];
     for (const name of expected) {
       expect(subsidium, name).toHaveProperty(name);

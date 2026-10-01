@@ -162,6 +162,19 @@ on reading instead of deciding.
 minutes are spent, escalations queue; they do not spill. An overflowing
 inbox teaches its owner to ignore all of it.
 
+**An ask must be worth its minutes.** Before an interruption reaches
+anyone, the stake behind it must repay the human time it burns several
+times over (`askWorth`). An ask that cannot name its stake is refused; a
+counterpart who asked for a person always gets one. Origin: a lead engineer
+checking a merchant worth $15 of margin, to find nothing was broken.
+
+**An ask that never pays loses its voice.** Each ask kind keeps a record of
+what the human's time bought (`recordAsk`). Under the yield floor, with
+enough outcomes to read it honestly, the kind is muted to a digest until a
+review (`askStanding`, `reviewAsk`). Measured on the production system: 63
+internal asks in ten days, 4 unblocks. Muting grants no autonomy: the
+system does not do more, it asks less.
+
 ## SOP & measure — optimizing the company without lying to yourself
 
 "Optimize the company" decomposes into **procedures** and the **numbers**
