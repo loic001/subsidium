@@ -234,3 +234,11 @@ describe('streak healing: the cliff keeps its staircase', () => {
     expect(g.effectiveTier('k', 3)).toBe(3);
   });
 });
+
+describe('streak healing: unknown kinds', () => {
+  it('a kind never seen is not promotion-ready', () => {
+    const g = new TierGovernor({ minTrack: 3, errorBudget: 0.1, healing: 'streak' });
+    expect(g.promotionReady('never_seen')).toBe(false);
+    expect(g.effectiveTier('never_seen', 3)).toBe(3);
+  });
+});
