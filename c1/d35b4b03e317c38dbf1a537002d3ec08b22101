@@ -1,0 +1,33 @@
+PRINCIPLES.md
+  s_3a4e5052701bb1::t_843c514b3a3c9d 102-109
+__tests__/governor.test.ts
+  s_3a4e5052701bb1::t_7b704807ace1c4 160,175-236
+package.json
+  s_5e3f0bf325fbed::t_15a1bc631d20cb 3
+src/governor.ts
+  s_5e3f0bf325fbed::t_fd1922124a4ddb 35-50,66-67,86-91,99,114,120-123,126-128,151,179
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "c1d35b4b03e317c38dbf1a537002d3ec08b22101",
+  "prompts": {},
+  "sessions": {
+    "s_3a4e5052701bb1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "46695ed4-1e3e-4873-8573-a49dd6468e1c",
+        "model": "claude-fable-5-1"
+      },
+      "human_author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    },
+    "s_5e3f0bf325fbed": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d28460ae-13d0-4216-86a6-1993dad7d715",
+        "model": "claude-fable-5-1"
+      },
+      "human_author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    }
+  }
+}
