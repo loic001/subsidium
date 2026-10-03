@@ -157,6 +157,7 @@ describe('dump / hydrate — a host must be able to persist the ledger', () => {
       contestsUp: 0,
       contestsDown: 0,
       demotedUntilReset: false,
+      streak: 0,
     });
   });
 });
@@ -169,5 +170,67 @@ describe('the yellow card', () => {
     // record decides. You do not improve a metric by reclassifying.
     expect(g.effectiveTier('send_reminder', 3)).toBe(3);
     expect(g.snapshot('send_reminder').contestsDown).toBe(5);
+  });
+});
+
+describe('streak healing: the cliff keeps its staircase', () => {
+  const streak = { minTrack: 3, errorBudget: 0.1, healing: 'streak' as const };
+
+  it('promotes after minTrack consecutive clean executions, one tier only', () => {
+    const g = new TierGovernor(streak);
+    g.record('k', 'success');
+    g.record('k', 'success');
+    expect(g.effectiveTier('k', 3)).toBe(3);
+    g.record('k', 'success');
+    expect(g.effectiveTier('k', 3)).toBe(2);
+  });
+
+  it('one contest is still an instant demotion', () => {
+    const g = new TierGovernor(streak);
+    for (let i = 0; i < 5; i++) g.record('k', 'success');
+    g.contestUp('k');
+    expect(g.effectiveTier('k', 3)).toBe(3);
+  });
+
+  it('re-earns by itself, from zero, with no reset()', () => {
+    const g = new TierGovernor(streak);
+    for (let i = 0; i < 5; i++) g.record('k', 'success');
+    g.contestUp('k');
+    g.record('k', 'success');
+    g.record('k', 'success');
+    expect(g.effectiveTier('k', 3)).toBe(3);
+    g.record('k', 'success');
+    expect(g.effectiveTier('k', 3)).toBe(2);
+  });
+
+  it('a failure breaks the streak like a contest does', () => {
+    const g = new TierGovernor(streak);
+    for (let i = 0; i < 3; i++) g.record('k', 'success');
+    g.record('k', 'failure');
+    expect(g.effectiveTier('k', 3)).toBe(3);
+  });
+
+  it('a lifetime of clean runs before an incident buys nothing', () => {
+    const g = new TierGovernor(streak);
+    for (let i = 0; i < 500; i++) g.record('k', 'success');
+    g.contestUp('k');
+    expect(g.promotionReady('k')).toBe(false);
+  });
+
+  it('a record persisted before streaks existed starts from zero', () => {
+    const g = new TierGovernor(streak);
+    g.hydrate({ k: { executions: 60, failures: 0, contestsUp: 0, contestsDown: 0, demotedUntilReset: true } });
+    expect(g.effectiveTier('k', 3)).toBe(3);
+    for (let i = 0; i < 3; i++) g.record('k', 'success');
+    expect(g.effectiveTier('k', 3)).toBe(2);
+    expect(g.dump().k.streak).toBe(3);
+  });
+
+  it('manual healing is unchanged: sticky until reset', () => {
+    const g = new TierGovernor({ minTrack: 3, errorBudget: 0.5 });
+    for (let i = 0; i < 3; i++) g.record('k', 'success');
+    g.contestUp('k');
+    for (let i = 0; i < 10; i++) g.record('k', 'success');
+    expect(g.effectiveTier('k', 3)).toBe(3);
   });
 });

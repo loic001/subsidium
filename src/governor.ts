@@ -32,6 +32,22 @@ export interface GovernorOptions {
   minTrack: number;
   /** Max tolerated failure+contest rate on the track record (0..1). */
   errorBudget: number;
+  /**
+   * How a kind recovers after a human contest or a failure.
+   *
+   *  - `manual` (default): the demotion is sticky until a deliberate reset().
+   *  - `streak`: trust re-earns by itself. A kind is promoted after
+   *    `minTrack` CONSECUTIVE clean executions, and one contest or failure
+   *    puts the streak back to zero. No reset needed, no lifetime rate.
+   *
+   * `manual` assumes someone holds the autonomy review. Measured on a host
+   * with one founder approving everything (2026-10): 7 kinds out of 9 sat
+   * demoted for weeks because nobody ran the review, so nothing could ever
+   * promote and the consent queue expired faster than it was read. A cliff
+   * with no way back up is a turkey; `streak` keeps the cliff and adds the
+   * staircase.
+   */
+  healing?: 'manual' | 'streak';
 }
 
 export const DEFAULT_GOVERNOR_OPTIONS: GovernorOptions = {
@@ -47,6 +63,8 @@ export interface KindRecord {
   /** "This did not need me" yellow cards — evidence for promotion. */
   contestsDown: number;
   demotedUntilReset: boolean;
+  /** Consecutive clean executions since the last failure or contest (`streak` healing). */
+  streak?: number;
 }
 
 const EMPTY: KindRecord = {
@@ -65,7 +83,12 @@ export class TierGovernor {
   record(kind: string, outcome: 'success' | 'failure'): void {
     const r = this.get(kind);
     r.executions++;
-    if (outcome === 'failure') r.failures++;
+    if (outcome === 'failure') {
+      r.failures++;
+      r.streak = 0;
+    } else {
+      r.streak = (r.streak ?? 0) + 1;
+    }
   }
 
   /** A human said "this needed me". Instant, sticky demotion. */
@@ -73,6 +96,7 @@ export class TierGovernor {
     const r = this.get(kind);
     r.contestsUp++;
     r.demotedUntilReset = true;
+    r.streak = 0;
   }
 
   /** A human said "this did not need me" — the yellow card. */
@@ -87,14 +111,21 @@ export class TierGovernor {
    */
   effectiveTier(kind: string, derived: Tier): Tier {
     const r = this.records.get(kind) ?? EMPTY;
-    if (r.demotedUntilReset) return derived;
+    if (r.demotedUntilReset && !this.streakHealing) return derived;
     if (derived === 0) return 0;
     if (!this.promotionReady(kind)) return derived;
     return (derived - 1) as Tier;
   }
 
+  private get streakHealing(): boolean {
+    return this.opts.healing === 'streak';
+  }
+
   promotionReady(kind: string): boolean {
     const r = this.records.get(kind);
+    // Streak healing: only the run since the last incident counts. A record
+    // written before `streak` existed has none, and starts from zero.
+    if (this.streakHealing) return (r?.streak ?? 0) >= this.opts.minTrack;
     if (!r || r.executions < this.opts.minTrack) return false;
     const bad = r.failures + r.contestsUp;
     return bad / r.executions <= this.opts.errorBudget;
@@ -117,6 +148,7 @@ export class TierGovernor {
       r.executions = 0;
       r.failures = 0;
       r.contestsUp = 0;
+      r.streak = 0;
     }
   }
 
@@ -144,6 +176,7 @@ export class TierGovernor {
         contestsUp: rec.contestsUp ?? 0,
         contestsDown: rec.contestsDown ?? 0,
         demotedUntilReset: rec.demotedUntilReset ?? false,
+        streak: rec.streak ?? 0,
       });
     }
   }

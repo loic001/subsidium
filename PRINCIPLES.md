@@ -99,6 +99,14 @@ stairs and takes the elevator down.
   vs 185 frozen without, static pyramid 308 — the human week shrinks
   ~40% and converges toward the irreducible complex core).
 
+- **Streak healing** (`healing: 'streak'`): the review above assumes someone
+  holds it. Where nobody does, a demoted kind never comes back, and the
+  consent queue expires faster than it is read (*measured on the reference
+  host, 2026-10*: 7 kinds of 9 demoted for weeks, more merchant messages
+  expired than sent). In streak mode a kind is promoted after `minTrack`
+  consecutive clean executions and one contest or failure puts the streak
+  back to zero. The cliff stays; the way back up no longer needs a meeting.
+
 ### 6. Trust belongs to the version
 
 The governor key of a SOP includes its version: edit the procedure and the
