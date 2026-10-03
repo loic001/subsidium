@@ -1,0 +1,19 @@
+__tests__/governor.test.ts
+  s_3a4e5052701bb1::t_050dda596512c6 237-244
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "cfe8871da4c5a80162c2162b955d76c1c463a158",
+  "prompts": {},
+  "sessions": {
+    "s_3a4e5052701bb1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "46695ed4-1e3e-4873-8573-a49dd6468e1c",
+        "model": "claude-fable-5-1"
+      },
+      "human_author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    }
+  }
+}
