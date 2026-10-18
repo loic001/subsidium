@@ -1,0 +1,31 @@
+__tests__/interface.test.ts
+  s_3a4e5052701bb1::t_be75b968f20288 1-285
+src/interface.ts
+  s_3a4e5052701bb1::t_e98ed14a9480c0 1-409
+PRINCIPLES.md
+  s_3a4e5052701bb1::t_3555344260c202 316-405
+README.md
+  s_3a4e5052701bb1::t_ca0d08f1626b11 178-193
+__tests__/surface.test.ts
+  s_3a4e5052701bb1::t_23ec0b9c7288f4 58-67
+package.json
+  s_3a4e5052701bb1::t_180089759e98ec 3
+src/index.ts
+  s_3a4e5052701bb1::t_eb9f1bc53fb7b1 21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1821ff5623086592e61ae31a87f6ba1e7677dc49",
+  "prompts": {},
+  "sessions": {
+    "s_3a4e5052701bb1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "46695ed4-1e3e-4873-8573-a49dd6468e1c",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Loïc DELOBEL <loic.delobel@gmail.com>"
+    }
+  }
+}
