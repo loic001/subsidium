@@ -65,6 +65,13 @@ describe('the package surface', () => {
       'DEFAULT_RANK_OPTIONS',
       'DEFAULT_DIVERGENCE_POLICY',
       'DEFAULT_BRIDGE_POLICY',
+      'simulateRepair',
+      'simulateReconcile',
+      'simulateBridge',
+      'defaultSeamWorld',
+      'defaultDriftWorld',
+      'defaultBridgeWorld',
+      'averageOver',
     ];
     for (const name of expected) {
       expect(subsidium, name).toHaveProperty(name);

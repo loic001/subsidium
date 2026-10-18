@@ -19,3 +19,4 @@ export * from './sim';
 export * from './dashboard';
 export * from './ask';
 export * from './interface';
+export * from './interface-sim';

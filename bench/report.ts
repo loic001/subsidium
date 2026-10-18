@@ -16,6 +16,16 @@ import {
   type OutreachConfig,
   type SopPolicy,
 } from '../src/sim';
+import {
+  averageOver,
+  defaultBridgeWorld,
+  defaultDriftWorld,
+  defaultSeamWorld,
+  simulateBridge,
+  simulateReconcile,
+  simulateRepair,
+  type RepairPolicy,
+} from '../src/interface-sim';
 
 const SEEDS = [11, 42, 137, 1001, 9090];
 const world = defaultWorld();
@@ -98,3 +108,19 @@ for (const policy of ['naive', 'law'] as const) {
 }
 
 console.log('\nWhat this proves: the orderings, under stated assumptions. Production keeps the final word.');
+
+console.log('\nINTERFACES — 17: which seam to repair first? (24 seams, 12 weeks, 1 repair/week)');
+for (const p of ['none', 'by_volume', 'by_price_silence_free', 'by_price'] as RepairPolicy[]) {
+  const r = averageOver((s) => simulateRepair(p, defaultSeamWorld(), s), SEEDS);
+  console.log(`  ${p.padEnd(24)} total ${pad(r.totalCost, 10)}  saved ${pad(r.saved, 10)}`);
+}
+console.log('\nINTERFACES — 18: reconcile rule and guide? (26 weeks, 40 decisions/week)');
+for (const p of ['blind', 'watch'] as const) {
+  const r = averageOver((s) => simulateReconcile(p, defaultDriftWorld(), s), SEEDS);
+  console.log(`  ${p.padEnd(24)} drifted ${pad(r.driftedDecisions, 7)}  reconciliations ${pad(r.reconciliations, 5)}  false alarms ${pad(r.falseAlarms, 4)}`);
+}
+console.log('\nINTERFACES — 19: spread the only bridge? (5 people, 90% on one, 26 weeks)');
+for (const p of ['ignore', 'spread'] as const) {
+  const r = averageOver((s) => simulateBridge(p, defaultBridgeWorld(), s), SEEDS);
+  console.log(`  ${p.padEnd(24)} wait hours ${pad(r.waitHours, 7)}  flagged weeks ${pad(r.flaggedWeeks, 5)}`);
+}

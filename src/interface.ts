@@ -7,7 +7,7 @@
  * one side to the other, whether the seams people use are the ones the
  * process says they should use, and whether one person is holding a seam up
  * alone. "Group" is the host's word: a pole, a team, a desk, a system that
- * decides. Nothing here knows what a merchant, an underwriter or a ticket is.
+ * decides. Nothing here knows what business the host is in.
  *
  * Three laws:
  *
