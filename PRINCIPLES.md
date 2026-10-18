@@ -350,9 +350,13 @@ designed, and it is priced as a service one.
   answered fast (2 h median) and still cost the most: 184 asks, 56 of them
   multi-turn loops. Ranked by message count it looked healthy; ranked by
   price it was first.
-- **Price:** not measured yet. The origin shows where the money goes, not
-  what acting on it saves; a before/after reading on a repaired seam,
-  judged with `judge`, is open work.
+- **Price** (*sim*, `simulateRepair`, 24 seams, 12 weeks, one repair a
+  week, 5 seeds): repairing the costliest seam first avoids $152.7k, the
+  loudest seam first $139.0k: ranking by price saves 10% more for the same
+  repair capacity. Ranking by price with silence free gives $150.0k: a third
+  of the gap is the silence the volume ranking never sees. The world's
+  assumption, stated in the code: busy seams are the well-staffed ones. Where
+  the loudest seam is also the slowest, the two rankings converge.
 
 ### 18. The map and the territory must agree
 
@@ -374,13 +378,20 @@ rule or change the guide, then measure again under the new version
 - **Pinned by:** `interface.test.ts` — Cataldo's 10-required-5-used is 0.5,
   directed seams, an empty process map throws (it agrees with everything),
   below `minN` the verdict is `too_early`, ceilings of 0 or 1 throw.
-- **Origin** (*prod*, 2026-10-17): the reference host's onboarding rules
+- **Origin** (*prod*, 2026-10-17): the reference host's acceptance rules
   and the guides its staff followed had drifted apart for weeks (documents
-  the rules never required, a call the rules had dropped). Measured the next
+  the rules never required, a step the rules had dropped). Measured the next
   day over 30 days: people accepted 28 files the rule refused, 94 approved
   files had a last rule verdict of refuse, 62 rejected files had one of
   accept, and 41% of 2,980 document requests ended cancelled.
-- **Price:** not measured yet; same open work as 17.
+- **Price** (*sim*, `simulateReconcile`, 26 weeks, 40 human decisions a
+  week, a guide that starts drifting with 12% chance a week and then decides
+  30% of cases against the rule, 3% honest disagreement, 5 seeds): never
+  looking leaves 273 cases decided against the rule; watching the divergence
+  and reconciling over the 10% ceiling leaves 31.8, after 2.8
+  reconciliations, with zero false alarms. Honest judgement alone (no drift)
+  never trips the ceiling; at 30% noise every alarm is false and counted as
+  such.
 
 ### 19. No one is the only bridge
 
@@ -401,7 +412,13 @@ a name. Naming it is the point: the holiday will name it anyway, later.
   90% of their group's answers to the rest of the company, and another 62%
   of theirs; the founder was mentioned in 144 of the other groups' asks in
   30 days.
-- **Price:** not measured yet.
+- **Price** (*sim*, `simulateBridge`, a group of 5, 40 asks a week, the
+  busiest person carrying 90%, each person away one week in ten, 40 h of
+  waiting when nobody can cover, 5 seeds): the one-bridge group waits 4,760
+  hours over 26 weeks; flagging it and spreading the load waits 296 (−94%).
+  The world's assumption, stated in the code: a colleague can cover only if
+  they already carry 15% of the answers. Spreading is what makes cover
+  possible; a spread nobody actually learns from buys nothing.
 
 ---
 
