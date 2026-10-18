@@ -55,6 +55,16 @@ describe('the package surface', () => {
       'EMPTY_ASK_RECORD',
       'DEFAULT_ASK_PRICING',
       'DEFAULT_ASK_YIELD_POLICY',
+      'interfaceCost',
+      'interfaceCostSpec',
+      'rankInterfaces',
+      'congruence',
+      'divergence',
+      'bridgeLoad',
+      'DEFAULT_INTERFACE_PRICING',
+      'DEFAULT_RANK_OPTIONS',
+      'DEFAULT_DIVERGENCE_POLICY',
+      'DEFAULT_BRIDGE_POLICY',
     ];
     for (const name of expected) {
       expect(subsidium, name).toHaveProperty(name);

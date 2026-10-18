@@ -175,6 +175,22 @@ review (`askStanding`, `reviewAsk`). Measured on the production system: 63
 internal asks in ten days, 4 unblocks. Muting grants no autonomy: the
 system does not do more, it asks less.
 
+**An interface is priced by what it costs, not by how much it talks.**
+Between two groups, the price of a seam is waiting time × the cost of delay
+plus the human minutes burned on loops, nudges and escalations
+(`interfaceCost`, `rankInterfaces`). Silence is charged, never free. In a
+collaboration the back-and-forth is the work, until its end date passes.
+
+**The map and the territory must agree.** Congruence: of the seams the
+process requires, how many people use (`congruence`, after Cataldo et al.
+2008). Divergence: how often a rule and a person decide the same case
+differently, and in which direction (`divergence`). Over the ceiling, the
+owner reconciles the rule and the guide.
+
+**No one is the only bridge.** For each group, the share of its answers to
+other groups that comes from one person (`bridgeLoad`). Above half, the
+group has a single point of failure with a name.
+
 ## SOP & measure — optimizing the company without lying to yourself
 
 "Optimize the company" decomposes into **procedures** and the **numbers**

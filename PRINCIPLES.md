@@ -313,6 +313,96 @@ alarm, not a criminal record (same contract as principle 5).
 - **Host note:** yield belongs to the ask's wording and trigger. If either
   changes, key the record on the new version, as with SOPs (principle 6).
 
+## Interfaces between groups
+
+The pyramid prices one action and the ask ledger prices one interruption.
+The last three laws price the **seam** between two groups: what it costs to
+get something from one side to the other, whether people use the seams the
+process says they should, and whether one person holds a seam up alone.
+"Group" is the host's word: a team, a function, a desk, or a system that
+decides. The primitives know nothing about the business they run on.
+
+### 17. An interface is priced by what it costs, not by how much it talks
+
+Coase and Williamson: the cost of exchanging inside a firm is a cost of the
+firm. Reinertsen: in knowledge work the queue dominates the work. A seam's
+price is the hours its subjects wait × the cost of delay, plus the human
+minutes burned on loops (asked, refused, asked again), nudges and
+escalations, in the host's own unit. **Silence is not free**: an ask nobody
+answered is charged a wait, never zero, or the seam that ignores everyone
+looks the most fluid. **Volume is not friction**: in a collaboration (Team
+Topologies) the back-and-forth is the work and is not charged as rework, but
+a collaboration must end; without a live end date it is a seam nobody
+designed, and it is priced as a service one.
+
+- **Primitive:** `interfaceCost` / `rankInterfaces` / `interfaceCostSpec`
+  ([`src/interface.ts`](src/interface.ts)). Bands are relative (the
+  costliest third per ask is `blocking`): an absolute threshold is right for
+  one company only. `interfaceCostSpec` pins the pricing into the metric's
+  definition, so repricing a minute makes old and new readings
+  `not_comparable` (principle 13): a seam does not get cheaper by repricing
+  its people.
+- **Pinned by:** `interface.test.ts` — silence costs more than a slow
+  answer, loops free only in a live collaboration, an open-ended one priced
+  as service, free pricing throws, impossible observations throw.
+- **Origin** (*prod*, 2026-10-18): first measurement on the reference host,
+  30 days of internal chat (8,375 messages, 2,918 threads). The busiest seam
+  answered fast (2 h median) and still cost the most: 184 asks, 56 of them
+  multi-turn loops. Ranked by message count it looked healthy; ranked by
+  price it was first.
+- **Price:** not measured yet. The origin shows where the money goes, not
+  what acting on it saves; a before/after reading on a repaired seam,
+  judged with `judge`, is open work.
+
+### 18. The map and the territory must agree
+
+Conway, and the mirroring hypothesis tested since (Colfer & Baldwin review
+142 studies; the mirror holds in most): an organization reproduces its
+communication structure. When the process, the rules and the people stop
+describing the same company, each side learns to ignore the other. Two
+checks. **Congruence** (Cataldo, Herbsleb & Carley 2008): of the seams the
+process requires, the share actually used; required but unused are
+**gaps**, used but not required are **bypasses**. **Divergence**: when a
+rule and a person decide the same case, how often they disagree, and
+whether people are looser or stricter than the rule. A divergence over the
+ceiling does not say who is wrong. It is an ask to the owner: change the
+rule or change the guide, then measure again under the new version
+(principle 6).
+
+- **Primitive:** `congruence` / `divergence`
+  ([`src/interface.ts`](src/interface.ts)).
+- **Pinned by:** `interface.test.ts` — Cataldo's 10-required-5-used is 0.5,
+  directed seams, an empty process map throws (it agrees with everything),
+  below `minN` the verdict is `too_early`, ceilings of 0 or 1 throw.
+- **Origin** (*prod*, 2026-10-17): the reference host's onboarding rules
+  and the guides its staff followed had drifted apart for weeks (documents
+  the rules never required, a call the rules had dropped). Measured the next
+  day over 30 days: people accepted 28 files the rule refused, 94 approved
+  files had a last rule verdict of refuse, 62 rejected files had one of
+  accept, and 41% of 2,980 document requests ended cancelled.
+- **Price:** not measured yet; same open work as 17.
+
+### 19. No one is the only bridge
+
+Rob Cross: across hundreds of organizations, 20 to 35% of value-adding
+collaboration comes from 3 to 5% of people, and when those connectors
+saturate everything behind them waits. A group whose answers to the rest of
+the company come mostly from one person has a single point of failure with
+a name. Naming it is the point: the holiday will name it anyway, later.
+
+- **Primitive:** `bridgeLoad` ([`src/interface.ts`](src/interface.ts)).
+  Person-level by necessity; the host decides who may read it. This module
+  scores seams, not people's performance: the bridge is the group's risk,
+  not the person's fault.
+- **Pinned by:** `interface.test.ts` — the 90% bridge is named first, ties
+  break by name, below `minN` it is `too_early`, a share ceiling of 1
+  throws (it never flags anyone).
+- **Origin** (*prod*, 2026-10-18): on the reference host one person gave
+  90% of their group's answers to the rest of the company, and another 62%
+  of theirs; the founder was mentioned in 144 of the other groups' asks in
+  30 days.
+- **Price:** not measured yet.
+
 ---
 
 ## What this page cannot do
